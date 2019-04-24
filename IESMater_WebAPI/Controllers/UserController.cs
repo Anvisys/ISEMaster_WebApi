@@ -13,10 +13,12 @@ namespace IESMater_WebAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
 
     [RoutePrefix("api/User")]
+
     public class UserController : ApiController
     {
         [Route("{Email}")]
         [HttpGet]
+   
         public IESUserProfile GetUserProfile(String Email)
         {
             var context = new xPenEntities();
@@ -35,6 +37,7 @@ namespace IESMater_WebAPI.Controllers
 
         [Route("Register")]
         [HttpGet]
+       
         public IHttpActionResult Post([FromBody]IESUserProfile profile)
         {
             try

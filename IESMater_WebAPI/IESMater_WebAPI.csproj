@@ -94,6 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\LogFile.txt" />
     <Content Include="Global.asax" />
     <Content Include="IESEntity.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -105,9 +106,12 @@
       <DependentUpon>IESEntity.edmx</DependentUpon>
       <LastGenOutput>IESEntity.cs</LastGenOutput>
     </Content>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\Log.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\LookUpController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -147,6 +151,7 @@
     <Compile Include="iesViewUserProfile.cs">
       <DependentUpon>IESEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -168,7 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

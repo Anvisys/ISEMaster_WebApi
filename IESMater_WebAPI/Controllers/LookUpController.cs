@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Data.Entity;
+using IESMater_WebAPI.Models;
+
 
 namespace IESMater_WebAPI.Controllers
 {
@@ -23,10 +25,13 @@ namespace IESMater_WebAPI.Controllers
         [HttpGet]
         public IEnumerable<IESUniversity> GetUniversity(String UnivName)
         {
+            Utility.log("Reading University Name");
+                
             var context = new xPenEntities();
             var soc = (from s in context.IESUniversities
                        where s.Name.Contains(UnivName)
                        select s).ToList();
+            Utility.log("Found " + soc.Count);
 
             return soc;
         }
