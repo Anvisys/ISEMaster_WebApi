@@ -13,6 +13,28 @@
           <Property Name="College_Name" Type="varchar" MaxLength="50" />
           <Property Name="UnivID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="IESObjectiveQuestions">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="500" />
+          <Property Name="option_a" Type="varchar" MaxLength="50" />
+          <Property Name="option_b" Type="varchar" MaxLength="50" />
+          <Property Name="option_c" Type="varchar" MaxLength="50" />
+          <Property Name="option_d" Type="varchar" MaxLength="50" />
+          <Property Name="CorrectOption" Type="int" />
+        </EntityType>
+        <EntityType Name="IESObjectiveTest">
+          <Key>
+            <PropertyRef Name="QPaperID" />
+          </Key>
+          <Property Name="QPaperID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnivID" Type="int" />
+          <Property Name="StreamID" Type="int" />
+          <Property Name="SemId" Type="int" />
+          <Property Name="QuestionID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="IESSem">
           <Key>
             <PropertyRef Name="SemID" />
@@ -27,6 +49,42 @@
           <Property Name="StreamID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Stream_Name" Type="varchar" MaxLength="50" />
           <Property Name="UnivID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESSubjectiveQuestion">
+          <Key>
+            <PropertyRef Name="QuesID" />
+          </Key>
+          <Property Name="QuesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="300" />
+          <Property Name="answer" Type="varchar" MaxLength="1000" />
+          <Property Name="[SubjectID]" Type="int" Nullable="false" />
+          <Property Name="SemID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESSubjectiveTests">
+          <Key>
+            <PropertyRef Name="SNo" />
+          </Key>
+          <Property Name="SNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperID" Type="int" Nullable="false" />
+          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="StreamID" Type="int" Nullable="false" />
+          <Property Name="SemID" Type="int" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CReationDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESTestPaperInventory">
+          <Key>
+            <PropertyRef Name="SerialNO" />
+          </Key>
+          <Property Name="SerialNO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperID" Type="int" Nullable="false" />
+          <Property Name="QuesID" Type="int" Nullable="false" />
+          <Property Name="SubjectID" Type="int" />
+          <Property Name="StreamID" Type="int" />
         </EntityType>
         <EntityType Name="IESUniversity">
           <Key>
@@ -79,8 +137,13 @@ warning 6002: The table/view 'xPen.dbo.iesViewUserProfile' does not have a prima
         </EntityType>
         <EntityContainer Name="xPenModelStoreContainer">
           <EntitySet Name="IESCollege" EntityType="Self.IESCollege" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESObjectiveQuestions" EntityType="Self.IESObjectiveQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESObjectiveTest" EntityType="Self.IESObjectiveTest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IESSem" EntityType="Self.IESSem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IESStream" EntityType="Self.IESStream" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESSubjectiveQuestion" EntityType="Self.IESSubjectiveQuestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESSubjectiveTests" EntityType="Self.IESSubjectiveTests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESTestPaperInventory" EntityType="Self.IESTestPaperInventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IESUniversity" EntityType="Self.IESUniversity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IESUserProfile" EntityType="Self.IESUserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="iesViewUserProfile" EntityType="Self.iesViewUserProfile" store:Type="Views" store:Schema="dbo">
@@ -113,6 +176,11 @@ warning 6002: The table/view 'xPen.dbo.iesViewUserProfile' does not have a prima
           <EntitySet Name="IESUniversities" EntityType="xPenModel.IESUniversity" />
           <EntitySet Name="IESUserProfiles" EntityType="xPenModel.IESUserProfile" />
           <EntitySet Name="iesViewUserProfiles" EntityType="xPenModel.iesViewUserProfile" />
+          <EntitySet Name="IESObjectiveQuestions" EntityType="xPenModel.IESObjectiveQuestion" />
+          <EntitySet Name="IESObjectiveTests" EntityType="xPenModel.IESObjectiveTest" />
+          <EntitySet Name="IESSubjectiveTests" EntityType="xPenModel.IESSubjectiveTest" />
+          <EntitySet Name="IESTestPaperInventories" EntityType="xPenModel.IESTestPaperInventory" />
+          <EntitySet Name="IESSubjectiveQuestions" EntityType="xPenModel.IESSubjectiveQuestion" />
         </EntityContainer>
         <EntityType Name="IESCollege">
           <Key>
@@ -183,6 +251,64 @@ warning 6002: The table/view 'xPen.dbo.iesViewUserProfile' does not have a prima
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="ActivationDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DisableDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="IESObjectiveQuestion">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="option_a" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="option_b" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="option_c" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="option_d" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CorrectOption" Type="Int32" />
+        </EntityType>
+        <EntityType Name="IESObjectiveTest">
+          <Key>
+            <PropertyRef Name="QPaperID" />
+          </Key>
+          <Property Name="QPaperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnivID" Type="Int32" />
+          <Property Name="StreamID" Type="Int32" />
+          <Property Name="SemId" Type="Int32" />
+          <Property Name="QuestionID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESSubjectiveTest">
+          <Key>
+            <PropertyRef Name="SNo" />
+          </Key>
+          <Property Name="SNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaperID" Type="Int32" Nullable="false" />
+          <Property Name="UnivID" Type="Int32" Nullable="false" />
+          <Property Name="StreamID" Type="Int32" Nullable="false" />
+          <Property Name="SemID" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CReationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESTestPaperInventory">
+          <Key>
+            <PropertyRef Name="SerialNO" />
+          </Key>
+          <Property Name="SerialNO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaperID" Type="Int32" Nullable="false" />
+          <Property Name="QuesID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" />
+          <Property Name="StreamID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="IESSubjectiveQuestion">
+          <Key>
+            <PropertyRef Name="QuesID" />
+          </Key>
+          <Property Name="QuesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="answer" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="C_SubjectID_" Type="Int32" Nullable="false" />
+          <Property Name="SemID" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -256,6 +382,69 @@ warning 6002: The table/view 'xPen.dbo.iesViewUserProfile' does not have a prima
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Token" ColumnName="Token" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESObjectiveQuestions">
+            <EntityTypeMapping TypeName="xPenModel.IESObjectiveQuestion">
+              <MappingFragment StoreEntitySet="IESObjectiveQuestions">
+                <ScalarProperty Name="CorrectOption" ColumnName="CorrectOption" />
+                <ScalarProperty Name="option_d" ColumnName="option_d" />
+                <ScalarProperty Name="option_c" ColumnName="option_c" />
+                <ScalarProperty Name="option_b" ColumnName="option_b" />
+                <ScalarProperty Name="option_a" ColumnName="option_a" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESObjectiveTests">
+            <EntityTypeMapping TypeName="xPenModel.IESObjectiveTest">
+              <MappingFragment StoreEntitySet="IESObjectiveTest">
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="SemId" ColumnName="SemId" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="QPaperID" ColumnName="QPaperID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESSubjectiveTests">
+            <EntityTypeMapping TypeName="xPenModel.IESSubjectiveTest">
+              <MappingFragment StoreEntitySet="IESSubjectiveTests">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="CReationDate" ColumnName="CReationDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SemID" ColumnName="SemID" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="SNo" ColumnName="SNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESTestPaperInventories">
+            <EntityTypeMapping TypeName="xPenModel.IESTestPaperInventory">
+              <MappingFragment StoreEntitySet="IESTestPaperInventory">
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="QuesID" ColumnName="QuesID" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="SerialNO" ColumnName="SerialNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESSubjectiveQuestions">
+            <EntityTypeMapping TypeName="xPenModel.IESSubjectiveQuestion">
+              <MappingFragment StoreEntitySet="IESSubjectiveQuestion">
+                <ScalarProperty Name="SemID" ColumnName="SemID" />
+                <ScalarProperty Name="C_SubjectID_" ColumnName="[SubjectID]" />
+                <ScalarProperty Name="answer" ColumnName="answer" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="QuesID" ColumnName="QuesID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

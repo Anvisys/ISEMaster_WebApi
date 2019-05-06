@@ -11,6 +11,7 @@ using IESMater_WebAPI.Models;
 
 namespace IESMater_WebAPI.Controllers
 {
+
    
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -36,7 +37,7 @@ namespace IESMater_WebAPI.Controllers
             return soc;
         }
 
-        [Route("College/{CollegeName}/{UniversityID}")]
+        [Route("College/{UniversityID}/{CollegeName}")]
         [HttpGet]
         public IEnumerable<IESCollege> Get(int UniversityID, String CollegeName)
         {
