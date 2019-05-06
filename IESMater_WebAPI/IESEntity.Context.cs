@@ -31,5 +31,10 @@ namespace IESMater_WebAPI
         public virtual DbSet<IESUniversity> IESUniversities { get; set; }
         public virtual DbSet<IESUserProfile> IESUserProfiles { get; set; }
         public virtual DbSet<iesViewUserProfile> iesViewUserProfiles { get; set; }
+        public virtual DbSet<IESObjectiveQuestion> IESObjectiveQuestions { get; set; }
+        public virtual DbSet<IESObjectiveTest> IESObjectiveTests { get; set; }
+        public virtual DbSet<IESSubjectiveTest> IESSubjectiveTests { get; set; }
+        public virtual DbSet<IESTestPaperInventory> IESTestPaperInventories { get; set; }
+        public virtual DbSet<IESSubjectiveQuestion> IESSubjectiveQuestions { get; set; }
     }
 }

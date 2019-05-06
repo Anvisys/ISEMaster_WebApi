@@ -20,11 +20,23 @@ namespace IESMater_WebAPI.Controllers
     public class LookUpController : ApiController
     {
 
-        
+        [Route("Universities")]
+        [HttpGet]
+        public IEnumerable<IESUniversity> GetUniversities()
+        {
+            Utility.log("Reading University List");
+
+            var context = new xPenEntities();
+            var soc = (from s in context.IESUniversities
+                       select s).ToList();
+            Utility.log("Found " + soc.Count);
+
+            return soc;
+        }
 
         [Route("University/{UnivName}")]
         [HttpGet]
-        public IEnumerable<IESUniversity> GetUniversity(String UnivName)
+        public IEnumerable<IESUniversity> GetFilterUniversity(String UnivName)
         {
             Utility.log("Reading University Name");
                 
