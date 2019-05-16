@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Data.Entity;
 using System.Web.Http.Cors;
 
+using IESMater_WebAPI.Models;
 
 namespace IESMater_WebAPI.Controllers
 {
@@ -36,7 +37,7 @@ namespace IESMater_WebAPI.Controllers
         }
 
         [Route("Register")]
-        [HttpGet]
+        [HttpPost]
        
         public IHttpActionResult Post([FromBody]IESUserProfile profile)
         {
@@ -45,6 +46,23 @@ namespace IESMater_WebAPI.Controllers
                 var context = new xPenEntities();
                 context.IESUserProfiles.Add(profile);
                 context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception Ex)
+            {
+                return InternalServerError();
+            }
+        }
+
+        [Route("SendOTP")]
+        [HttpPost]
+
+        public IHttpActionResult PostOTP([FromBody]OTP value)
+        {
+            try
+            {
+                string Message = "Register with IES Master using OTP " + value.String_OTP; 
+                String result = Utility.sendSMS(Message,value.MobileNumber);
                 return Ok();
             }
             catch (Exception Ex)
