@@ -63,10 +63,10 @@ namespace IESMater_WebAPI.Controllers
 
         [Route("Stream/{UniversityID}/{StreamName}")]
         [HttpGet]
-        public IEnumerable<IESStream> GetStream(int UniversityID, String StreamName)
+        public IEnumerable<ViewIESStream> GetStream(int UniversityID, String StreamName)
         {
             var context = new xPenEntities();
-            var soc = (from s in context.IESStreams
+            var soc = (from s in context.ViewIESStreams
                        where s.UnivID == UniversityID && s.Stream_Name.Contains(StreamName)
                        select s).ToList();
 
@@ -75,10 +75,10 @@ namespace IESMater_WebAPI.Controllers
 
         [Route("Stream/{UniversityID}")]
         [HttpGet]
-        public IEnumerable<IESStream> GetAllStream(int UniversityID, String StreamName)
+        public IEnumerable<ViewIESStream> GetAllStream(int UniversityID, String StreamName)
         {
             var context = new xPenEntities();
-            var soc = (from s in context.IESStreams
+            var soc = (from s in context.ViewIESStreams
                        where s.UnivID == UniversityID && s.Stream_Name.Contains(StreamName)
                        select s).ToList();
 
