@@ -38,14 +38,20 @@ namespace IESMater_WebAPI.Controllers
                     if (value.OrderID > 1)
                     {
                         checkSum cs = new checkSum();
-                        cs.checksum = CreateChecksum(value.OrderID, value.UserID, value.Paid);
+                       String csm = CreateChecksum(value.OrderID, value.UserID, value.Paid);
                         string JSONresult = JsonConvert.SerializeObject(cs);
                         dbContextTransaction.Commit();
-                        return Ok(cs);
+                        Transaction newTransaction = new Transaction();
+                        newTransaction.UserID = value.UserID;
+                        newTransaction.PaperID = value.PaperID;
+                        newTransaction.Paid = value.Paid;
+                        newTransaction.OrderID = value.OrderID;
+                        newTransaction.CheckSum = csm;
+                        return Ok(newTransaction);
                     }
                     else
                     {
-                       
+                     
                         err.Response = "Error Saving Order";
                         dbContextTransaction.Rollback();
                         //return BadRequest(cs);
