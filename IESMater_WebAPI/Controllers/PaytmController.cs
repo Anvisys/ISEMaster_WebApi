@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 
 using System.Web.Http.Cors;
+using IESMater_WebAPI.Models;
 using Newtonsoft.Json;
 using Paytm.Checksum;
 
@@ -22,21 +23,92 @@ namespace IESMater_WebAPI.Controllers
         }
 
         [Route("GetChecksum")]
-        [HttpGet]
-        public IHttpActionResult GetChecksum()
+        [HttpPost]
+        public IHttpActionResult GetChecksum([FromBody]IESOrder value)
         {
-           
-            checkSum cs = new checkSum();
-            cs.checksum = CreateChecksum();
-            string JSONresult = JsonConvert.SerializeObject(cs);
-            return Ok(cs);
+            CustomResponse err = new CustomResponse();
+            try
+            {
+
+                var context = new xPenEntities();
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    context.IESOrders.Add(value);
+                    context.SaveChanges();
+                    if (value.OrderID > 1)
+                    {
+                        checkSum cs = new checkSum();
+                        cs.checksum = CreateChecksum(value.OrderID, value.UserID, value.Paid);
+                        string JSONresult = JsonConvert.SerializeObject(cs);
+                        dbContextTransaction.Commit();
+                        return Ok(cs);
+                    }
+                    else
+                    {
+                       
+                        err.Response = "Error Saving Order";
+                        dbContextTransaction.Rollback();
+                        //return BadRequest(cs);
+                        return Content(HttpStatusCode.BadRequest, err);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError();
+            }
+          
         }
 
         [Route("VerifyChecksum")]
         [HttpPost]
-        public void IHttpActionResult([FromBody]Dictionary<String, String> value)
+        public IHttpActionResult VerifyCheckSum([FromBody]Transaction trans)
         {
-           bool result =   VerifyChecksum(value);
+            CustomResponse res = new CustomResponse();
+            try
+            {
+                Dictionary<String, String> paytmParams = new Dictionary<String, String>();
+                String merchantMid = "JoyYHn78452054983473";
+                // Key in your staging and production MID available in your dashboard
+                String merchantKey = "DQW9YSzGhXyW5&hV";
+                // Key in your staging and production MID available in your dashboard
+                String orderId = trans.OrderID.ToString();
+                String channelId = "WAP";
+                String custId = trans.UserID.ToString();
+                String mobileNo = "9591033223";
+                String email = "amit_bansal73@yahoo.com";
+                String txnAmount = trans.Paid.ToString();
+                String website = "WEBSTAGING";
+                // This is the staging value. Production value is available in your dashboard
+                String industryTypeId = "Retail";
+                // This is the staging value. Production value is available in your dashboard
+                String callbackUrl = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=" + orderId;
+                paytmParams.Add("MID", merchantMid);
+                paytmParams.Add("CHANNEL_ID", channelId);
+                paytmParams.Add("WEBSITE", website);
+                paytmParams.Add("CALLBACK_URL", callbackUrl);
+                paytmParams.Add("CUST_ID", custId);
+                paytmParams.Add("MOBILE_NO", mobileNo);
+                paytmParams.Add("EMAIL", email);
+                paytmParams.Add("ORDER_ID", orderId);
+                paytmParams.Add("INDUSTRY_TYPE_ID", industryTypeId);
+                paytmParams.Add("TXN_AMOUNT", txnAmount);
+                paytmParams.Add("CHECKSUMHASH", trans.CheckSum);
+
+
+                bool result = VerifyChecksum(paytmParams);
+                if (result)
+                    res.Response = "Ok";
+                else
+                    res.Response = "Fail";
+
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                res.Response = "Server Error";
+                return Ok(res);
+            }
         }
 
         // PUT: api/Paytm/5
@@ -54,24 +126,24 @@ namespace IESMater_WebAPI.Controllers
             public string checksum;
         }
 
-        private String CreateChecksum()
+        private String CreateChecksum(int OrderId, int UserId, int Value)
         {
             Dictionary<String, String> paytmParams = new Dictionary<String, String>();
             String merchantMid = "JoyYHn78452054983473";
             // Key in your staging and production MID available in your dashboard
             String merchantKey = "DQW9YSzGhXyW5&hV";
             // Key in your staging and production MID available in your dashboard
-            String orderId = "order1";
+            String orderId = OrderId.ToString();
             String channelId = "WAP";
-            String custId = "cust123";
+            String custId = UserId.ToString();
             String mobileNo = "9591033223";
             String email = "amit_bansal73@yahoo.com";
-            String txnAmount = "10.00";
+            String txnAmount = Value.ToString();
             String website = "WEBSTAGING";
             // This is the staging value. Production value is available in your dashboard
             String industryTypeId = "Retail";
             // This is the staging value. Production value is available in your dashboard
-            String callbackUrl = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=order1";
+            String callbackUrl = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=" + orderId;
             paytmParams.Add("MID", merchantMid);
             paytmParams.Add("CHANNEL_ID", channelId);
             paytmParams.Add("WEBSITE", website);
@@ -90,7 +162,7 @@ namespace IESMater_WebAPI.Controllers
 
         private bool VerifyChecksum(Dictionary<String,String> request)
         {
-            String merchantKey = "gKpu7IKaLSbkchFS";
+            String merchantKey = "DQW9YSzGhXyW5&hV";
             Dictionary<String, String> paytmParams = new Dictionary<String, String>();
             string paytmChecksum = "";
 
@@ -103,7 +175,9 @@ namespace IESMater_WebAPI.Controllers
                 paytmChecksum = paytmParams["CHECKSUMHASH"];
                 paytmParams.Remove("CHECKSUMHASH");
             }
-            return  CheckSum.VerifyCheckSum(merchantKey, paytmParams, paytmChecksum);
+            bool results =  CheckSum.VerifyCheckSum(merchantKey, paytmParams, paytmChecksum);
+
+            return results;
           
         }
     }

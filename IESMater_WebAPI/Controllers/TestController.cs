@@ -27,6 +27,7 @@ namespace IESMater_WebAPI.Controllers
             return test;
         }
 
+
         [Route("New")]
         [HttpGet]
         public IHttpActionResult PostNewTest([FromBody]IESQuestionPaper value)
@@ -35,6 +36,25 @@ namespace IESMater_WebAPI.Controllers
             {
                 var context = new xPenEntities();
                 context.IESQuestionPapers.Add(value);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex.InnerException);
+            }
+
+        }
+
+
+        [Route("Order")]
+        [HttpGet]
+        public IHttpActionResult PostOrder([FromBody]IESOrder value)
+        {
+            try
+            {
+                var context = new xPenEntities();
+                context.IESOrders.Add(value);
                 context.SaveChanges();
                 return Ok();
             }

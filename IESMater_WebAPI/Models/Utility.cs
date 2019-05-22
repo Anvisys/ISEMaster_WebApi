@@ -38,4 +38,10 @@ namespace IESMater_WebAPI.Models
             }
         }
     }
+
+    public class ErrorResponse
+    {
+
+        public string Response { get; set; }
+    }
 }
