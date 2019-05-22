@@ -39,7 +39,7 @@ namespace IESMater_WebAPI.Models
         }
     }
 
-    public class ErrorResponse
+    public class CustomResponse
     {
 
         public string Response { get; set; }
