@@ -17,16 +17,36 @@ namespace IESMater_WebAPI.Controllers
 
         [Route("{univID}/{streamID}/{semesterID}/{SubjectID}")]
         [HttpGet]
-        public IEnumerable<IESSubjectiveTest> Get(int univID, int streamID, int semesterID ,int SubjectID)
+        public IEnumerable<ViewIESQuestionPaper> Get(int univID, int streamID, int semesterID ,int SubjectID)
         {
             var context = new xPenEntities();
-            var test = (from s in context.IESSubjectiveTests
-                        where s.UnivID == univID && s.StreamID == streamID && s.SemID == semesterID
+            var test = (from s in context.ViewIESQuestionPapers
+                        where s.UnivID == univID && s.StreamID == streamID && s.SemesterID == semesterID
                        select s).ToList();
           
             return test;
         }
 
+        [Route("New")]
+        [HttpGet]
+        public IHttpActionResult PostNewTest([FromBody]IESQuestionPaper value)
+        {
+            try
+            {
+                var context = new xPenEntities();
+                context.IESQuestionPapers.Add(value);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex.InnerException);
+            }
+
+        }
+
+
+        [Authorize]
         // GET: api/Test/5
         public string Get(int id)
         {
