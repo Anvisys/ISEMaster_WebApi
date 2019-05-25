@@ -22,14 +22,14 @@ namespace IESMater_WebAPI.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
-        [Route("{CollegeID}/{StreamID}/{Semester}")]
+        [Route("{CollegeID}/{StreamID}/{SemesterID}")]
         [HttpGet]
-        public IEnumerable<ViewIESSubject> GetSemesterID(int collegeID, int streamID, int Semester)
+        public IEnumerable<ViewIESSubject> GetSemesterID(int collegeID, int streamID, int Semesterid)
         {
             var context = new xPenEntities();
             var subject = (from s in context.ViewIESSubjects
-                           where s.CollegeID == collegeID && s.StreamID == streamID && s.SemesterID == Semester
-                             select s);
+                           where s.CollegeID == collegeID && s.StreamID == streamID && s.SemesterID == Semesterid
+                             select s).ToList();
             return subject;
 
         }

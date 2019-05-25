@@ -67,7 +67,7 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var soc = (from s in context.ViewIESStreams
-                       where s.UnivID == UniversityID && s.Stream_Name.Contains(StreamName)
+                       where s.UnivID == UniversityID && s.StreamName.Contains(StreamName)
                        select s).ToList();
 
             return soc;
@@ -79,7 +79,7 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var soc = (from s in context.ViewIESStreams
-                       where s.UnivID == UniversityID && s.Stream_Name.Contains(StreamName)
+                       where s.UnivID == UniversityID && s.StreamName.Contains(StreamName)
                        select s).ToList();
 
             return soc;

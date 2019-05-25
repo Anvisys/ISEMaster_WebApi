@@ -19,12 +19,19 @@ namespace IESMater_WebAPI.Controllers
         // GET: api/Colleges
         [Route("All")]
         [HttpGet]
-        public IEnumerable<IESCollege> GetCollege()
+        public IEnumerable<Object> GetCollege()
         {
             var context = new xPenEntities();
-            var colleges = (from s in context.IESColleges
-                            select s).ToList();
-            return colleges;
+            var college = (from c in context.ViewIESColleges
+                           group c by new { c.CollegeID, c.College_Name } into CollegeGroup
+                           select new
+                           {
+                               CollegeID = CollegeGroup.Key.CollegeID,
+                               collegeName = CollegeGroup.Key.College_Name,
+                               StreamCount = CollegeGroup.Count()
+                           });
+      
+            return college;
         }
 
         // GET: api/Colleges/5
@@ -67,20 +74,20 @@ namespace IESMater_WebAPI.Controllers
                 {
                     IESCollege college = new IESCollege
                     {
-                        College_Name = college_course.Name,
-                        UnivID = college_course.univ_id
+                        College_Name = college_course.CollegeName,
+                        UnivID = college_course.UnivID
                     };
                     context.IESColleges.Add(college);
                     context.SaveChanges();
 
-                    List<int> courses = college_course.Stream;
-                    foreach (int i in courses)
+                    List<IESStream> courses = college_course.Streams;
+                    foreach (IESStream i in courses)
                     {
                         context.IESCourses.Add(
                             new IESCourse
                             {
                                 CollegeID = college.CollegeID,
-                                StreamID = i
+                                StreamID = i.StreamID
                             }
                             );
                     }
@@ -99,10 +106,16 @@ namespace IESMater_WebAPI.Controllers
 
 
 
-        // PUT: api/Colleges/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        //[Route("{CollegeID}")]
+        //[HttpGet]
+        //public IEnumerable<ViewIESStream> GetSemester(int collegeid )
+        //{
+        //    var context = new xPenEntities();
+        //    var semester = (from s in context.ViewIESStreams
+        //                    where s.CollegeID == collegeid
+        //                   select s).ToList();
+        //    return semester;
+        //}
 
         // DELETE: api/Colleges/5
         public void Delete(int id)

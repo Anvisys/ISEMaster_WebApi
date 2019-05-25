@@ -15,10 +15,10 @@ namespace IESMater_WebAPI
             // Web API configuration and services
             var json = config.Formatters.JsonFormatter;
             //json.UseDataContractJsonSerializer = true;
-            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All;
+            //json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All;
             //json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Formatters.Remove(config.Formatters.XmlFormatter);
-
+            config.EnableCors();
             //config.Filters.Add(new AuthorizeAttribute());
 
             // Web API routes

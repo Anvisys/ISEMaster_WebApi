@@ -54,6 +54,46 @@ namespace IESMater_WebAPI.Controllers
             }
         }
 
+
+        [Route("GetAcademic/{UserID}")]
+        [HttpPost]
+
+        public IHttpActionResult GetAcademicProfile(int UserID)
+        {
+            try
+            {
+                var context = new xPenEntities();
+                var profile = from u in context.IESAcademicProfiles
+                              where u.UserID == UserID
+                              select u;
+             
+                return Ok(profile);
+            }
+            catch (Exception Ex)
+            {
+                return InternalServerError();
+            }
+        }
+
+        [Route("AddAcademic")]
+        [HttpPost]
+
+        public IHttpActionResult PostProfile([FromBody]IESAcademicProfile profile)
+        {
+            try
+            {
+                var context = new xPenEntities();
+                context.IESAcademicProfiles.Add(profile);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception Ex)
+            {
+                return InternalServerError();
+            }
+        }
+
+
         [Route("SendOTP")]
         [HttpPost]
 

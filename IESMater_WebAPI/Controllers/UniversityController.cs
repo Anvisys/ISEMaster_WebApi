@@ -15,12 +15,28 @@ namespace IESMater_WebAPI.Controllers
         // GET: api/University
         [Route("All")]
         [HttpGet]
-        public IEnumerable<IESUniversity> GetUniversityAll()
+        public IEnumerable<Object> GetUniversityAll()
         {
             var context = new xPenEntities();
-            var university = (from s in context.IESUniversities
-                              select s).ToList();
-            return university;
+          
+
+            var University = from u in context.IESUniversities
+                             join c in context.IESColleges
+                               on u.UnivID equals c.UnivID into pj
+                             from sub in pj.DefaultIfEmpty()
+                             select new { u.UnivID, u.Name, sub.CollegeID };
+
+            var uni = (from c in University
+                       group c by new { c.UnivID, c.Name} into UnivGroup
+                       select new
+                       {
+                           Name = UnivGroup.Key.Name,
+                           UnivID = UnivGroup.Key.UnivID,
+                           CollegeCount = UnivGroup.Count()
+                       });
+
+
+            return uni;
         }
 
         // GET: api/University/5
