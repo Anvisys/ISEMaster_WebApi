@@ -15,7 +15,7 @@ namespace IESMater_WebAPI
     public partial class IESStream
     {
         public int StreamID { get; set; }
-        public string Stream_Name { get; set; }
-        public int UnivID { get; set; }
+        public string StreamName { get; set; }
+        public string Description { get; set; }
     }
 }
