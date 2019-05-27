@@ -34,6 +34,16 @@ namespace IESMater_WebAPI.Controllers
             return stream;
         }
 
+        [Route("{paperId}")]
+        [HttpGet]
+        public IEnumerable<ViewIESPaperQuestion> GetQuestionsForPaper(int paperId)
+        {
+            var context = new xPenEntities();
+            var stream = (from q in context.ViewIESPaperQuestions
+                          where q.PaperID == paperId
+                          select q).ToList();
+            return stream;
+        }
 
         [Route("AddQuestion/{PaperID}")]
         [HttpPost]
@@ -57,7 +67,6 @@ namespace IESMater_WebAPI.Controllers
                     context.SaveChanges();
                     dbContextTransaction.Commit();
                 }
-
 
                 return Ok();
             }
