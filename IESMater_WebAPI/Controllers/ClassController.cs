@@ -24,7 +24,7 @@ namespace IESMater_WebAPI.Controllers
 
         [Route("{CollegeID}/{StreamID}/{SemesterID}")]
         [HttpGet]
-        public IEnumerable<ViewIESSubject> GetSemesterID(int collegeID, int streamID, int Semesterid)
+        public IEnumerable<ViewIESSubject> GetSubjectID(int collegeID, int streamID, int Semesterid)
         {
             var context = new xPenEntities();
             var subject = (from s in context.ViewIESSubjects
