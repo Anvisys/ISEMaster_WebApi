@@ -42,7 +42,7 @@ namespace IESMater_WebAPI.Controllers
                 
             var context = new xPenEntities();
             var soc = (from s in context.IESUniversities
-                       where s.Name.Contains(UnivName)
+                       where s.UniversityName.Contains(UnivName)
                        select s).ToList();
             Utility.log("Found " + soc.Count);
 
@@ -55,7 +55,7 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var soc = (from s in context.IESColleges
-                       where s.UnivID == UniversityID && s.College_Name.Contains(CollegeName)
+                       where s.UnivID == UniversityID && s.CollegeName.Contains(CollegeName)
                        select s).ToList();
 
             return soc;

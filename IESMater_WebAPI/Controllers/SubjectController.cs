@@ -9,7 +9,7 @@ using System.Web.Http.Cors;
 namespace IESMater_WebAPI.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    [RoutePrefix("api/subjects")]
+    [RoutePrefix("api/subject")]
     public class SubjectController : ApiController
     {
         [Route("All")]

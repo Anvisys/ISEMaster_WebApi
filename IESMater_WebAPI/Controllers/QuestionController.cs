@@ -34,9 +34,38 @@ namespace IESMater_WebAPI.Controllers
             return stream;
         }
 
-        // POST: api/Question
-        public void Post([FromBody]string value)
+
+        [Route("AddQuestion/{PaperID}")]
+        [HttpPost]
+        public IHttpActionResult PostQuestion([FromBody]IESQuestion question, int PaperID)
         {
+            try
+            {
+                var context = new xPenEntities();
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    if (question.QuestionID <= 0)
+                    {
+                        context.IESQuestions.Add(question);
+                        context.SaveChanges();
+                    }
+
+                    context.IESPaper_Question.Add( new IESPaper_Question{
+                        PaperID = PaperID,
+                        QuesID = question.QuestionID
+                    });
+                    context.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError();
+            }
+
         }
 
         // PUT: api/Question/5

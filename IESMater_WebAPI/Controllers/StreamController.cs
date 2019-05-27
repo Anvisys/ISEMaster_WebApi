@@ -44,7 +44,7 @@ namespace IESMater_WebAPI.Controllers
 
 
 
-        [Route("Colleges/{CollegeID}")]
+        [Route("College/{CollegeID}")]
         [HttpGet]
         // GET: api/Stream/5
         public IEnumerable<ViewIESStream> GetStreamofCollege(int collegeid)
@@ -56,19 +56,6 @@ namespace IESMater_WebAPI.Controllers
             return stream;
         }
 
-        [Route("{StreamID}")]
-        [HttpGet]
-        // GET: api/Stream/5
-
-            //Get Semester Of a Stream
-        public IEnumerable<ViewIESSemester> GetSemestesofStream(int streamid)
-        {
-            var context = new xPenEntities();
-            var semesters = (from s in context.ViewIESSemesters
-                          where s.StreamID == streamid
-                          select s).ToList();
-            return semesters;
-        }
 
         [Route("New")]
         [HttpPost]

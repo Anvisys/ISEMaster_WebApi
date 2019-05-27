@@ -10,7 +10,7 @@ using System.Web.Http.Cors;
 namespace IESMater_WebAPI.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    [RoutePrefix("api/Test")]
+    [RoutePrefix("api/Paper")]
     public class TestController : ApiController
     {
 
@@ -21,15 +21,53 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var test = (from s in context.ViewIESQuestionPapers
-                        where s.UnivID == univID && s.StreamID == streamID && s.SemesterID == semesterID
+                        where s.UnivID == univID && s.StreamID == streamID && s.SemID == semesterID
                        select s).ToList();
           
             return test;
         }
 
+        [Route("All")]
+        [HttpGet]
+        public IHttpActionResult GetAllPapers()
+        {
+            try
+            {
+                var context = new xPenEntities();
+                var test = (from s in context.ViewIESQuestionPapers
+                            select s).ToList();
+                return Ok(test);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex.InnerException);
+            }
+
+        }
+
+
+        [Route("{PaperID}")]
+        [HttpGet]
+        public IHttpActionResult GetPaperDetails(int PaperID)
+        {
+            try
+            {
+                var context = new xPenEntities();
+                var test = (from s in context.ViewIESQuestionPapers
+                            where s.PaperID == PaperID
+                            select s).First();
+                return Ok(test);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex.InnerException);
+            }
+
+        }
+
 
         [Route("New")]
-        [HttpGet]
+        [HttpPost]
         public IHttpActionResult PostNewTest([FromBody]IESQuestionPaper value)
         {
             try
@@ -48,7 +86,7 @@ namespace IESMater_WebAPI.Controllers
 
 
         [Route("Order")]
-        [HttpGet]
+        [HttpPost]
         public IHttpActionResult PostOrder([FromBody]IESOrder value)
         {
             try
@@ -64,6 +102,8 @@ namespace IESMater_WebAPI.Controllers
             }
 
         }
+
+
 
 
         [Authorize]

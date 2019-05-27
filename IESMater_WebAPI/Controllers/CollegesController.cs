@@ -23,11 +23,11 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var college = (from c in context.ViewIESColleges
-                           group c by new { c.CollegeID, c.College_Name } into CollegeGroup
+                           group c by new { c.CollegeID, c.CollegeName } into CollegeGroup
                            select new
                            {
                                CollegeID = CollegeGroup.Key.CollegeID,
-                               collegeName = CollegeGroup.Key.College_Name,
+                               collegeName = CollegeGroup.Key.CollegeName,
                                StreamCount = CollegeGroup.Count()
                            });
       
@@ -74,7 +74,7 @@ namespace IESMater_WebAPI.Controllers
                 {
                     IESCollege college = new IESCollege
                     {
-                        College_Name = college_course.CollegeName,
+                        CollegeName = college_course.CollegeName,
                         UnivID = college_course.UnivID
                     };
                     context.IESColleges.Add(college);

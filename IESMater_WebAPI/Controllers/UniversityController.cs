@@ -24,18 +24,16 @@ namespace IESMater_WebAPI.Controllers
                              join c in context.IESColleges
                                on u.UnivID equals c.UnivID into pj
                              from sub in pj.DefaultIfEmpty()
-                             select new { u.UnivID, u.Name, sub.CollegeID };
+                             select new { u.UnivID, u.UniversityName, sub.CollegeID };
 
             var uni = (from c in University
-                       group c by new { c.UnivID, c.Name} into UnivGroup
+                       group c by new { c.UnivID, c.UniversityName} into UnivGroup
                        select new
                        {
-                           Name = UnivGroup.Key.Name,
+                           UniversityName = UnivGroup.Key.UniversityName,
                            UnivID = UnivGroup.Key.UnivID,
                            CollegeCount = UnivGroup.Count()
                        });
-
-
             return uni;
         }
 
