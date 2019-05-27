@@ -14,6 +14,17 @@ namespace IESMater_WebAPI.Controllers
     public class TestController : ApiController
     {
 
+        [Route("{collegeID}/{streamID}/{SubjectID}")]
+        [HttpGet]
+        public IEnumerable<ViewIESQuestionPaper> Get(int collegeID, int streamID, int SubjectID)
+        {
+            var context = new xPenEntities();
+            var test = (from s in context.ViewIESQuestionPapers
+                        where s.CollegeID == collegeID && s.StreamID == streamID && s.SemID == SubjectID
+                        select s).ToList();
+
+            return test;
+        }
 
         [Route("{univID}/{streamID}/{semesterID}/{SubjectID}")]
         [HttpGet]
