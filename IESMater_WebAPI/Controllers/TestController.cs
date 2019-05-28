@@ -13,30 +13,95 @@ namespace IESMater_WebAPI.Controllers
     [RoutePrefix("api/Paper")]
     public class TestController : ApiController
     {
-
-        [Route("{collegeID}/{streamID}/{SubjectID}")]
+        [Route("College")]
         [HttpGet]
-        public IEnumerable<ViewIESQuestionPaper> Get(int collegeID, int streamID, int SubjectID)
+        public IEnumerable<Object> GetUniversityByPaper()
+        {
+            var context = new xPenEntities();
+            var subjects = (from s in context.ViewIESQuestionPapers
+                            group s by new { s.UnivID, s.UniversityName, s.CollegeID, s.CollegeName } into unilist
+                            select new { unilist.Key }).ToList();
+            return subjects;
+        }
+
+        [Route("College/{CollegeID}")]
+        [HttpGet]
+        public IEnumerable<Object> GetStreamByPaper(int CollegeID)
+        {
+            var context = new xPenEntities();
+            var subjects = (from s in context.ViewIESQuestionPapers
+                            where s.CollegeID == CollegeID
+                            group s by new { s.StreamID, s.StreamName } into streamlist
+                            select new { streamlist.Key }).ToList();
+            return subjects;
+        }
+
+
+
+        [Route("{CollegeID}/{StreamID}")]
+        [HttpGet]
+        public IEnumerable<Object> GetSubjectsfromQuestionPaper(int CollegeID, int StreamID)
+        {
+            var context = new xPenEntities();
+            var subjects = (from s in context.ViewIESQuestionPapers
+                        
+                            where s.CollegeID == CollegeID && s.StreamID == StreamID
+                            group s by s.SubjectName into subjectlist
+                            select new { subjectlist.Key }).ToList();
+            return subjects;
+        }
+
+        [Route("{collegeID}/{streamID}/{SubjectName}")]
+        [HttpGet]
+        public IEnumerable<Object> GetYearsfromQuestionPaper(int collegeID, int streamID, String SubjectName)
         {
             var context = new xPenEntities();
             var test = (from s in context.ViewIESQuestionPapers
-                        where s.CollegeID == collegeID && s.StreamID == streamID && s.SemID == SubjectID
+                        where s.CollegeID == collegeID && s.StreamID == streamID && s.SubjectName == SubjectName
+                        group s by s.Year into yearGroup
+                        select new { yearGroup.Key }).ToList();
+
+            return test;
+        }
+
+
+        [Route("{collegeID}/{streamID}/{SubjectName}/{Year}")]
+        [HttpGet]
+        public IEnumerable<Object> GetUnitforProfile(int collegeID, int streamID, String SubjectName, int Year)
+        {
+            var context = new xPenEntities();
+            var test = (from s in context.ViewIESQuestionPapers
+                        where s.CollegeID == collegeID && s.StreamID == streamID && s.SubjectName == SubjectName && s.Year == Year
+                        group s by s.Unit into unitGroup
+                        select new { Unit = unitGroup.Key }).ToList();
+
+            return test;
+        }
+
+        [Route("{collegeID}/{streamID}/{SubjectName}/{Year}/{Unit}")]
+        [HttpGet]
+        public IEnumerable<Object> GetQuestionforProfile(int collegeID, int streamID, String SubjectName, int Year, int Unit)
+        {
+            var context = new xPenEntities();
+            var test = (from s in context.ViewIESQuestionPapers
+                        where s.CollegeID == collegeID && s.StreamID == streamID 
+                        && s.SubjectName == SubjectName && s.Year == Year && s.Unit == Unit
                         select s).ToList();
 
             return test;
         }
 
-        [Route("{univID}/{streamID}/{semesterID}/{SubjectID}")]
-        [HttpGet]
-        public IEnumerable<ViewIESQuestionPaper> Get(int univID, int streamID, int semesterID ,int SubjectID)
-        {
-            var context = new xPenEntities();
-            var test = (from s in context.ViewIESQuestionPapers
-                        where s.UnivID == univID && s.StreamID == streamID && s.SemID == semesterID
-                       select s).ToList();
-          
-            return test;
-        }
+        //[Route("{univID}/{streamID}/{semesterID}/{SubjectID}")]
+        //[HttpGet]
+        //public IEnumerable<ViewIESQuestionPaper> Get(int univID, int streamID, int semesterID ,int SubjectID)
+        //{
+        //    var context = new xPenEntities();
+        //    var test = (from s in context.ViewIESQuestionPapers
+        //                where s.UnivID == univID && s.StreamID == streamID && s.SemID == semesterID
+        //               select s).ToList();
+
+        //    return test;
+        //}
 
         [Route("All")]
         [HttpGet]
@@ -57,7 +122,7 @@ namespace IESMater_WebAPI.Controllers
         }
 
 
-        [Route("{PaperID}")]
+        [Route("Paper/{PaperID}")]
         [HttpGet]
         public IHttpActionResult GetPaperDetails(int PaperID)
         {

@@ -23,11 +23,7 @@ namespace IESMater_WebAPI.Controllers
             return subjects;
         }
 
-        // GET: api/Subject/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+
 
         [Route("New")]
         [HttpPost]
