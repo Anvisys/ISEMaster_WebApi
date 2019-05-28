@@ -63,7 +63,7 @@ namespace IESMater_WebAPI.Controllers
             try
             {
                 var context = new xPenEntities();
-                var profile = from u in context.IESAcademicProfiles
+                var profile = from u in context.ViewIESAcademicProfiles
                               where u.UserID == UserID
                               select u;
              
@@ -85,10 +85,15 @@ namespace IESMater_WebAPI.Controllers
                 var context = new xPenEntities();
                 context.IESAcademicProfiles.Add(profile);
                 context.SaveChanges();
-                return Ok(profile);
+
+                CustomResponse cr = new CustomResponse();
+                cr.Response = "Ok";
+                return Ok(cr);
             }
             catch (Exception Ex)
             {
+                CustomResponse cr = new CustomResponse();
+                cr.Response = "Fail";
                 return InternalServerError();
             }
         }

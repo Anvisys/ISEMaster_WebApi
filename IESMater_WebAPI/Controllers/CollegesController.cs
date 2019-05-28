@@ -148,9 +148,36 @@ namespace IESMater_WebAPI.Controllers
             return collegecourse;
         }
 
-        // DELETE: api/Colleges/5
-        public void Delete(int id)
+
+        [Route("UpdateStream")]
+        [HttpPost]
+        public IHttpActionResult UpdateCollegeStream([FromBody]IESCourse[] courses)
         {
+            try
+            {
+                var context = new xPenEntities();
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+
+                    int collID = (int)courses.First().CollegeID;
+                    var c = (from a in context.IESCourses
+                             where a.CollegeID == collID
+                             select a).ToList();
+                    context.IESCourses.RemoveRange(c);
+                    context.SaveChanges();
+                    context.IESCourses.AddRange(courses);
+                    context.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError();
+            }
         }
+
     }
 }
