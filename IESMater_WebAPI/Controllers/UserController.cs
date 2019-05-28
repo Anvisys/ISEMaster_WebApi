@@ -85,7 +85,28 @@ namespace IESMater_WebAPI.Controllers
                 var context = new xPenEntities();
                 context.IESAcademicProfiles.Add(profile);
                 context.SaveChanges();
-                return Ok();
+                return Ok(profile);
+            }
+            catch (Exception Ex)
+            {
+                return InternalServerError();
+            }
+        }
+
+        [Route("{UserID}")]
+        [HttpGet]
+
+        public IHttpActionResult GetProfile(int UserID)
+        {
+            try
+            {
+                var context = new xPenEntities();
+
+                var profile = (from p in context.ViewIESAcademicProfiles
+                               where p.UserID == UserID
+                               select p).First();
+                context.SaveChanges();
+                return Ok(profile);
             }
             catch (Exception Ex)
             {

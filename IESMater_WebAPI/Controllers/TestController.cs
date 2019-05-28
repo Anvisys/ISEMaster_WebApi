@@ -47,7 +47,7 @@ namespace IESMater_WebAPI.Controllers
                         
                             where s.CollegeID == CollegeID && s.StreamID == StreamID
                             group s by s.SubjectName into subjectlist
-                            select new { subjectlist.Key }).ToList();
+                            select new { subjectname=subjectlist.Key }).ToList();
             return subjects;
         }
 
@@ -59,7 +59,7 @@ namespace IESMater_WebAPI.Controllers
             var test = (from s in context.ViewIESQuestionPapers
                         where s.CollegeID == collegeID && s.StreamID == streamID && s.SubjectName == SubjectName
                         group s by s.Year into yearGroup
-                        select new { yearGroup.Key }).ToList();
+                        select new { year=yearGroup.Key }).ToList();
 
             return test;
         }

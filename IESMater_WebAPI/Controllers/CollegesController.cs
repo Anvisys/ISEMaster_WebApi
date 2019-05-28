@@ -13,7 +13,7 @@ using IESMater_WebAPI.Models;
 namespace IESMater_WebAPI.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    [RoutePrefix("api/Colleges")]
+    [RoutePrefix("api/College")]
     public class CollegesController : ApiController
     {
         // GET: api/Colleges
@@ -33,6 +33,20 @@ namespace IESMater_WebAPI.Controllers
       
             return college;
         }
+
+        // GET: api/Colleges
+        //[Route("{{CollegeID}}")]
+        //[HttpGet]
+        //public IEnumerable<Object> GetCollegeDetails(int CollegeID)
+        //{
+        //    var context = new xPenEntities();
+        //    var college = (from c in context.ViewIESColleges
+        //                   where c.CollegeID == CollegeID
+        //                   select c
+        //                   );
+
+        //    return college;
+        //}
 
         // GET: api/Colleges/5
         [Route("University/{univId}")]
@@ -106,16 +120,33 @@ namespace IESMater_WebAPI.Controllers
 
 
 
-        //[Route("{CollegeID}")]
-        //[HttpGet]
-        //public IEnumerable<ViewIESStream> GetSemester(int collegeid )
-        //{
-        //    var context = new xPenEntities();
-        //    var semester = (from s in context.ViewIESStreams
-        //                    where s.CollegeID == collegeid
-        //                   select s).ToList();
-        //    return semester;
-        //}
+        [Route("{CollegeID}")]
+        [HttpGet]
+        public College_Courses GetCollegeDetails(int collegeid)
+        {
+            var context = new xPenEntities();
+
+            var CollegeDetails = (from c in context.ViewIESColleges
+                                  where c.CollegeID == collegeid
+                                  select c).First();
+
+            var sid = (from s in context.IESCourses
+                           where s.CollegeID == collegeid
+                           select s).ToList();
+
+            var listStream = (from i in sid
+                              join st in context.IESStreams
+                              on i.StreamID equals st.StreamID
+                              select new IESStream { StreamID = (int)i.StreamID, StreamName = st.StreamName,Description = st.Description }).ToList();
+
+            College_Courses collegecourse = new College_Courses();
+
+            collegecourse.UnivID = CollegeDetails.UnivID;
+            collegecourse.CollegeName = CollegeDetails.CollegeName;
+            collegecourse.Streams = listStream;
+
+            return collegecourse;
+        }
 
         // DELETE: api/Colleges/5
         public void Delete(int id)
