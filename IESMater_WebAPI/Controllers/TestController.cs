@@ -121,11 +121,22 @@ namespace IESMater_WebAPI.Controllers
                         && s.SubjectName == SubjectName && s.Year == Year && s.Unit == Unit
                         select s).ToList();
 
-            var myTest = from t in test
-                         join o in order.DefaultIfEmpty(new IESOrder {Paid=0, PurchaseDate = DateTime.Now.AddYears(1), ClosureDate= DateTime.Now.AddYears(1) }) on t.PaperID equals o.PaperID
-                         select new { t.PaperID, t.UniversityName, t.SubjectName, t.Unit, t.CollegeName, t.Year, o.Paid , o.PurchaseDate, o.ClosureDate };
+            //var myTest = from t in test
+            //             join o in order.DefaultIfEmpty(new IESOrder {Paid=0, PurchaseDate = DateTime.Now.AddYears(1), ClosureDate= DateTime.Now.AddYears(1) }) on t.PaperID equals o.PaperID
+            //             select new { t.PaperID, t.UniversityName, t.SubjectName, t.Unit, t.CollegeName, t.Year, o.Paid , o.PurchaseDate, o.ClosureDate };
 
-            return myTest;
+
+            var qry = test.GroupJoin(
+                order,
+                t1=> t1.PaperID,
+                o1=> o1.PaperID,
+                (x,y)=> new {test =x, order=y })
+                .SelectMany(
+                y=> y.order.DefaultIfEmpty(new IESOrder {OrderID=0, PaperID =0, UserID=0, Paid=0, PurchaseDate= DateTime.Now.AddYears(1), ClosureDate = DateTime.Now.AddYears(1) }),
+                (x,y) => new { test=x.test, order = y }
+                ).ToList();
+
+            return qry;
         }
 
         //[Route("{univID}/{streamID}/{semesterID}/{SubjectID}")]
