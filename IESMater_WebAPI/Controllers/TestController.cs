@@ -36,6 +36,18 @@ namespace IESMater_WebAPI.Controllers
             return subjects;
         }
 
+        [Route("University/{UniversityID}")]
+        [HttpGet]
+        public IEnumerable<Object> GetStreamByPaperForUniversity(int CollegeID)
+        {
+            var context = new xPenEntities();
+            var subjects = (from s in context.ViewIESQuestionPapers
+                            where s.CollegeID == CollegeID
+                            group s by new { s.StreamID, s.StreamName } into streamlist
+                            select new { streamlist.Key }).ToList();
+            return subjects;
+        }
+
 
 
         [Route("{CollegeID}/{StreamID}")]
@@ -51,7 +63,23 @@ namespace IESMater_WebAPI.Controllers
             return subjects;
         }
 
-        [Route("{collegeID}/{streamID}/{SubjectName}")]
+
+        [Route("University/{UniversityID}/{StreamID}")]
+        [HttpGet]
+        public IEnumerable<Object> GetSubjectsfromQuestionPaperforUniversity(int CollegeID, int StreamID)
+        {
+            var context = new xPenEntities();
+            var subjects = (from s in context.ViewIESQuestionPapers
+
+                            where s.CollegeID == CollegeID && s.StreamID == StreamID
+                            group s by s.SubjectName into subjectlist
+                            select new { subjectname = subjectlist.Key }).ToList();
+            return subjects;
+        }
+
+
+
+        [Route("{UniversityID}/{streamID}/{SubjectName}")]
         [HttpGet]
         public IEnumerable<Object> GetYearsfromQuestionPaper(int collegeID, int streamID, String SubjectName)
         {
@@ -65,7 +93,7 @@ namespace IESMater_WebAPI.Controllers
         }
 
 
-        [Route("{collegeID}/{streamID}/{SubjectName}/{Year}")]
+        [Route("{UniversityID}/{streamID}/{SubjectName}/{Year}")]
         [HttpGet]
         public IEnumerable<Object> GetUnitforProfile(int collegeID, int streamID, String SubjectName, int Year)
         {
@@ -78,7 +106,7 @@ namespace IESMater_WebAPI.Controllers
             return test;
         }
 
-        [Route("{collegeID}/{streamID}/{SubjectName}/{Year}/{Unit}")]
+        [Route("{UniversityID}/{streamID}/{SubjectName}/{Year}/{Unit}")]
         [HttpGet]
         public IEnumerable<Object> GetQuestionforProfile(int collegeID, int streamID, String SubjectName, int Year, int Unit)
         {

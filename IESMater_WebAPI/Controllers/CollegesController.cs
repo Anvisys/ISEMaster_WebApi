@@ -148,6 +148,59 @@ namespace IESMater_WebAPI.Controllers
             return collegecourse;
         }
 
+        [Route("CollegeList")]
+        [HttpGet]
+        public IEnumerable<ViewIESStudentStreamCount> GetCollegeCount()
+        {
+
+                //Select* from IESCollege as c
+
+                //left join
+
+                //(Select CollegeID, COUNT(UserID) as NoOfStudent from IESAcademicProfile group by CollegeID) as a
+
+                //on c.CollegeID = a.CollegeID
+
+                var context = new xPenEntities();
+
+                var college = (from s in context.ViewIESStudentStreamCounts
+                               select s).ToList();
+
+
+
+
+                //var no = (from c in context.IESColleges
+                //          join p in (from profiles in context.IESAcademicProfiles
+                //                     group profiles by profiles.CollegeID into profilegroup
+                //                     select new
+                //                     {
+                //                         collegekey = profilegroup.Key,
+                //                         collegecount = profilegroup.Count(),
+                //                     }) on c.CollegeID equals p.collegekey into collegeinfo
+                //          from college in collegeinfo.DefaultIfEmpty()
+                //          select new
+                //          {
+                //              CollegeID = c.CollegeID,
+                //              CollegeName = c.CollegeName,
+                //              UniversityID = c.UnivID,
+
+                //              NumberOfStudents = (college.collegecount==0)?0: college.collegecount
+
+                //              //c.CollegeID, c.CollegeName ,c.UnivID ,isnull(a.CollegeID ,0) ,isnull(NoOfStudent ,0)
+                //          }).ToList();
+                return college;
+        }
+
+        public class studentCount {
+            public Int32 CollegeID;
+            public Int32 StudentCount;
+        }
+
+        public class streamCount
+        {
+            public int CollegeID;
+            public int StreamCount;
+        }
 
         [Route("UpdateStream")]
         [HttpPost]
