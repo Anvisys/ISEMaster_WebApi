@@ -20,7 +20,7 @@ namespace IESMater_WebAPI.Controllers
             var context = new xPenEntities();
             var subjects = (from s in context.ViewIESQuestionPapers
                             group s by new { s.UnivID, s.UniversityName, s.CollegeID, s.CollegeName } into unilist
-                            select new { unilist.Key }).ToList();
+                            select new { unilist.Key.UnivID, unilist.Key.UniversityName, unilist.Key.CollegeID, unilist.Key.CollegeName }).ToList();
             return subjects;
         }
 
@@ -32,19 +32,19 @@ namespace IESMater_WebAPI.Controllers
             var subjects = (from s in context.ViewIESQuestionPapers
                             where s.CollegeID == CollegeID
                             group s by new { s.StreamID, s.StreamName } into streamlist
-                            select new { streamlist.Key }).ToList();
+                            select new { streamlist.Key.StreamID, streamlist.Key.StreamName }).ToList();
             return subjects;
         }
 
         [Route("University/{UniversityID}")]
         [HttpGet]
-        public IEnumerable<Object> GetStreamByPaperForUniversity(int CollegeID)
+        public IEnumerable<Object> GetStreamByPaperForUniversity(int UniversityID)
         {
             var context = new xPenEntities();
             var subjects = (from s in context.ViewIESQuestionPapers
-                            where s.CollegeID == CollegeID
+                            where s.UnivID == UniversityID
                             group s by new { s.StreamID, s.StreamName } into streamlist
-                            select new { streamlist.Key }).ToList();
+                            select new { streamlist.Key.StreamID, streamlist.Key.StreamName }).ToList();
             return subjects;
         }
 
@@ -66,12 +66,12 @@ namespace IESMater_WebAPI.Controllers
 
         [Route("University/{UniversityID}/{StreamID}")]
         [HttpGet]
-        public IEnumerable<Object> GetSubjectsfromQuestionPaperforUniversity(int CollegeID, int StreamID)
+        public IEnumerable<Object> GetSubjectsfromQuestionPaperforUniversity(int UniversityID, int StreamID)
         {
             var context = new xPenEntities();
             var subjects = (from s in context.ViewIESQuestionPapers
 
-                            where s.CollegeID == CollegeID && s.StreamID == StreamID
+                            where s.UnivID == UniversityID && s.StreamID == StreamID
                             group s by s.SubjectName into subjectlist
                             select new { subjectname = subjectlist.Key }).ToList();
             return subjects;
@@ -81,11 +81,11 @@ namespace IESMater_WebAPI.Controllers
 
         [Route("{UniversityID}/{streamID}/{SubjectName}")]
         [HttpGet]
-        public IEnumerable<Object> GetYearsfromQuestionPaper(int collegeID, int streamID, String SubjectName)
+        public IEnumerable<Object> GetYearsfromQuestionPaper(int UniversityID, int streamID, String SubjectName)
         {
             var context = new xPenEntities();
             var test = (from s in context.ViewIESQuestionPapers
-                        where s.CollegeID == collegeID && s.StreamID == streamID && s.SubjectName == SubjectName
+                        where s.UnivID == UniversityID && s.StreamID == streamID && s.SubjectName == SubjectName
                         group s by s.Year into yearGroup
                         select new { year=yearGroup.Key }).ToList();
 
@@ -95,28 +95,37 @@ namespace IESMater_WebAPI.Controllers
 
         [Route("{UniversityID}/{streamID}/{SubjectName}/{Year}")]
         [HttpGet]
-        public IEnumerable<Object> GetUnitforProfile(int collegeID, int streamID, String SubjectName, int Year)
+        public IEnumerable<Object> GetUnitforProfile(int UniversityID, int streamID, String SubjectName, int Year)
         {
             var context = new xPenEntities();
             var test = (from s in context.ViewIESQuestionPapers
-                        where s.CollegeID == collegeID && s.StreamID == streamID && s.SubjectName == SubjectName && s.Year == Year
+                        where s.UnivID == UniversityID && s.StreamID == streamID && s.SubjectName == SubjectName && s.Year == Year
                         group s by s.Unit into unitGroup
                         select new { Unit = unitGroup.Key }).ToList();
 
             return test;
         }
 
-        [Route("{UniversityID}/{streamID}/{SubjectName}/{Year}/{Unit}")]
+        [Route("{UniversityID}/{streamID}/{SubjectName}/{Year}/{Unit}/{UserId}")]
         [HttpGet]
-        public IEnumerable<Object> GetQuestionforProfile(int collegeID, int streamID, String SubjectName, int Year, int Unit)
+        public IEnumerable<Object> GetQuestionforProfile(int UniversityID, int streamID, String SubjectName, int Year, int Unit, int UserId)
         {
             var context = new xPenEntities();
+
+            var order = (from o in context.IESOrders
+                         where o.UserID == UserId
+                         select o).ToList();
+
             var test = (from s in context.ViewIESQuestionPapers
-                        where s.CollegeID == collegeID && s.StreamID == streamID 
+                        where s.UnivID == UniversityID && s.StreamID == streamID 
                         && s.SubjectName == SubjectName && s.Year == Year && s.Unit == Unit
                         select s).ToList();
 
-            return test;
+            var myTest = from t in test
+                         join o in order.DefaultIfEmpty(new IESOrder {Paid=0, PurchaseDate = DateTime.Now.AddYears(1), ClosureDate= DateTime.Now.AddYears(1) }) on t.PaperID equals o.PaperID
+                         select new { t.PaperID, t.UniversityName, t.SubjectName, t.Unit, t.CollegeName, t.Year, o.Paid , o.PurchaseDate, o.ClosureDate };
+
+            return myTest;
         }
 
         //[Route("{univID}/{streamID}/{semesterID}/{SubjectID}")]

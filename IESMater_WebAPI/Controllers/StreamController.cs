@@ -43,6 +43,16 @@ namespace IESMater_WebAPI.Controllers
         }
 
 
+        [Route("college/student/count")]
+        [HttpGet]
+        public IEnumerable<Object> GetcollegeList()
+        {
+            var context = new xPenEntities();
+            var collegeList = (from s in context.ViewIESCountinStreams
+                               select s).ToList();
+            return collegeList;
+        }
+
 
         [Route("College/{CollegeID}")]
         [HttpGet]
