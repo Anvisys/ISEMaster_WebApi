@@ -20,20 +20,24 @@ namespace IESMater_WebAPI.Controllers
             var context = new xPenEntities();
           
 
-            var University = from u in context.IESUniversities
-                             join c in context.IESColleges
-                               on u.UnivID equals c.UnivID into pj
-                             from sub in pj.DefaultIfEmpty()
-                             select new { u.UnivID, u.UniversityName, sub.CollegeID };
+            //var University = from u in context.IESUniversities
+            //                 join c in context.IESColleges
+            //                   on u.UnivID equals c.UnivID into pj
+            //                 from sub in pj.DefaultIfEmpty()
+            //                 select new { u.UnivID, u.UniversityName, sub.CollegeID };
 
-            var uni = (from c in University
-                       group c by new { c.UnivID, c.UniversityName} into UnivGroup
-                       select new
-                       {
-                           UniversityName = UnivGroup.Key.UniversityName,
-                           UnivID = UnivGroup.Key.UnivID,
-                           CollegeCount = UnivGroup.Count()
-                       });
+            //var uni = (from c in University
+            //           group c by new { c.UnivID, c.UniversityName} into UnivGroup
+            //           select new
+            //           {
+            //               UniversityName = UnivGroup.Key.UniversityName,
+            //               UnivID = UnivGroup.Key.UnivID,
+            //               CollegeCount = UnivGroup.Count()
+            //           });
+
+            var uni = (from s in context.ViewIESUniversityWithCounts
+                               select s).ToList();
+
             return uni;
         }
 
@@ -42,7 +46,7 @@ namespace IESMater_WebAPI.Controllers
         public IEnumerable<Object> GetcollegeList()
         {
             var context = new xPenEntities();
-            var collegeList = (from s in context.ViewIESStudentCollegeCounts
+            var collegeList = (from s in context.ViewIESUniversityWithCounts
                                select s).ToList();
             return collegeList;
         }
