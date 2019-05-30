@@ -118,6 +118,34 @@ namespace IESMater_WebAPI.Controllers
             }
         }
 
+        [Route("UpdateStream")]
+        [HttpPost]
+        public IHttpActionResult UpdateCollegeStream([FromBody]iescourses courses)
+        {
+            var context = new xPenEntities();
+            IESCourse[] array = courses.courses;
+
+            using (var dbContextTransaction = context.Database.BeginTransaction())
+            {
+                var oldCourses = (from c in context.IESCourses
+                                  where c.CollegeID == array[0].CollegeID
+                                  select c).ToList();
+
+                context.IESCourses.RemoveRange(oldCourses);
+                context.SaveChanges();
+
+                context.IESCourses.AddRange(array);
+                dbContextTransaction.Commit();
+            }
+          
+            return Ok();
+        }
+
+
+        public class iescourses
+        {
+            public IESCourse[] courses;
+        }
 
 
         [Route("{CollegeID}")]

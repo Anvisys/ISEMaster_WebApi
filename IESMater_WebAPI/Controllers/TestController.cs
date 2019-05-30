@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IESMater_WebAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -190,23 +191,36 @@ namespace IESMater_WebAPI.Controllers
         }
 
 
-        [Route("New")]
+
         [HttpPost]
         public IHttpActionResult PostNewTest([FromBody]IESQuestionPaper value)
         {
+            CustomResponse cr = new CustomResponse();
             try
             {
                 var context = new xPenEntities();
-                context.IESQuestionPapers.Add(value);
-                context.SaveChanges();
-                return Ok();
+                var old = (from q in context.IESQuestionPapers
+                           where q.UniversityID == value.UniversityID && q.SubjectID == value.SubjectID && q.Year == value.Year
+                           select q).ToList();
+                if (old.Count > 0)
+                {
+                    cr.Response = "Paper Already Exist";
+                    return BadRequest(cr.Response);
+                }
+                else
+                {
+                    cr.Response = "Updated";
+                    context.IESQuestionPapers.Add(value);
+                    context.SaveChanges();
+                    return Ok(cr);
+                }
             }
             catch (Exception ex)
             {
                 return InternalServerError(ex.InnerException);
             }
-
         }
+            
 
 
         [Route("Order")]
