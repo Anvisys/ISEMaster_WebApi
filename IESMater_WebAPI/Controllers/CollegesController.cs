@@ -19,18 +19,21 @@ namespace IESMater_WebAPI.Controllers
         // GET: api/Colleges
         [Route("All")]
         [HttpGet]
-        public IEnumerable<Object> GetCollege()
+        public IEnumerable<object> GetCollege()
         {
             var context = new xPenEntities();
-            var college = (from c in context.ViewIESColleges
-                           group c by new { c.CollegeID, c.CollegeName } into CollegeGroup
-                           select new
-                           {
-                               CollegeID = CollegeGroup.Key.CollegeID,
-                               collegeName = CollegeGroup.Key.CollegeName,
-                               StreamCount = CollegeGroup.Count()
-                           });
-      
+            //var college = (from c in context.ViewIESColleges
+            //               group c by new { c.CollegeID, c.CollegeName } into CollegeGroup
+            //               select new
+            //               {
+            //                   CollegeID = CollegeGroup.Key.CollegeID,
+            //                   collegeName = CollegeGroup.Key.CollegeName,
+            //                   StreamCount = CollegeGroup.Count()
+            //               });
+
+            var college = (from s in context.ViewIESCollegeWithCounts
+                           select s).ToList();
+
             return college;
         }
 
@@ -178,7 +181,7 @@ namespace IESMater_WebAPI.Controllers
 
         [Route("CollegeList")]
         [HttpGet]
-        public IEnumerable<ViewIESStudentStreamCount> GetCollegeCount()
+        public IEnumerable<ViewIESCollegeWithCount> GetCollegeCount()
         {
 
                 //Select* from IESCollege as c
@@ -190,13 +193,7 @@ namespace IESMater_WebAPI.Controllers
                 //on c.CollegeID = a.CollegeID
 
                 var context = new xPenEntities();
-
-                var college = (from s in context.ViewIESStudentStreamCounts
-                               select s).ToList();
-
-
-
-
+            
                 //var no = (from c in context.IESColleges
                 //          join p in (from profiles in context.IESAcademicProfiles
                 //                     group profiles by profiles.CollegeID into profilegroup
@@ -216,7 +213,7 @@ namespace IESMater_WebAPI.Controllers
 
                 //              //c.CollegeID, c.CollegeName ,c.UnivID ,isnull(a.CollegeID ,0) ,isnull(NoOfStudent ,0)
                 //          }).ToList();
-                return college;
+                return null;
         }
 
         public class studentCount {
