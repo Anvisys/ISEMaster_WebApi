@@ -82,9 +82,23 @@ namespace IESMater_WebAPI.Controllers
         {
             try
             {
+               
                 var context = new xPenEntities();
-                context.IESAcademicProfiles.Add(profile);
-                context.SaveChanges();
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    var ac = (from ap in context.IESAcademicProfiles
+                              where ap.UserID == profile.UserID
+                              select ap).ToList();
+
+                    if (ac.Count > 0)
+                    {
+                        context.IESAcademicProfiles.RemoveRange(ac);
+                    }
+
+                    context.IESAcademicProfiles.Add(profile);
+                    context.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
 
                 CustomResponse cr = new CustomResponse();
                 cr.Response = "Ok";
