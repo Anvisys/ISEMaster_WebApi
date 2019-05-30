@@ -12,15 +12,12 @@ namespace IESMater_WebAPI
     using System;
     using System.Collections.Generic;
     
-    public partial class IESUserProfile
+    public partial class ViewIESCollegeWithCount
     {
-        public int UserID { get; set; }
-        public string Token { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string MobileNumber { get; set; }
-        public string Address { get; set; }
-        public string Password { get; set; }
-        public System.DateTime ActivationDate { get; set; }
+        public int CollegeID { get; set; }
+        public string CollegeName { get; set; }
+        public int UnivID { get; set; }
+        public int StudentCount { get; set; }
+        public int StreamCount { get; set; }
     }
 }
