@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Web.Http.Cors;
 
 using IESMater_WebAPI.Models;
+using Newtonsoft.Json.Linq;
 
 namespace IESMater_WebAPI.Controllers
 {
@@ -17,7 +18,7 @@ namespace IESMater_WebAPI.Controllers
 
     public class UserController : ApiController
     {
-        [Route("{Email}")]
+        [Route("Email/{Email}")]
         [HttpGet]
    
         public IESUserProfile GetUserProfile(String Email)
@@ -26,15 +27,23 @@ namespace IESMater_WebAPI.Controllers
             var soc = (from s in context.IESUserProfiles
                        where s.Email == Email
                        select s).FirstOrDefault();
-
             return soc;
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
+        [Route("Mobile/{Mobile}")]
+        [HttpGet]
+
+        public IESUserProfile GetUserProfilebyMobile(String Mobile)
         {
-            return "value";
+            var context = new xPenEntities();
+            var soc = (from s in context.IESUserProfiles
+                       where s.MobileNumber == Mobile
+                       select s).FirstOrDefault();
+            return soc;
         }
+
+
+
 
         [Route("Register")]
         [HttpPost]
@@ -44,9 +53,19 @@ namespace IESMater_WebAPI.Controllers
             try
             {
                 var context = new xPenEntities();
-                context.IESUserProfiles.Add(profile);
-                context.SaveChanges();
-                return Ok();
+                var user = (from u in context.IESUserProfiles
+                            where u.Email == profile.Email || u.MobileNumber == profile.MobileNumber
+                            select u).ToList();
+                if (user.Count > 0)
+                {
+                    return BadRequest("User Already Exist");
+                }
+                else
+                {
+                    context.IESUserProfiles.Add(profile);
+                    context.SaveChanges();
+                    return Ok(profile);
+                }
             }
             catch (Exception Ex)
             {
@@ -54,6 +73,39 @@ namespace IESMater_WebAPI.Controllers
             }
         }
 
+
+
+        [Route("Login")]
+        [HttpPost]
+
+        public IHttpActionResult PostLogin([FromBody]Login profile)
+        {
+            try
+            {
+                var context = new xPenEntities();
+                var user = (from u in context.IESUserProfiles
+                            where u.Email.ToLower() == profile.Email.ToLower() && u.Password == profile.Password
+                            select u).ToList();
+                if (user.Count == 0)
+                {
+                    var _user = new IESUserProfile { UserID = 0, Name = "", Address = "", Email = "", Password = "", Token = "", MobileNumber = "", ActivationDate = DateTime.Now };
+                    return Ok(_user);
+                }
+                 else if (user.Count > 1)
+                {
+                    return BadRequest("Multiple Existence");
+                }
+                else
+                {
+                    
+                    return Ok(user.First());
+                }
+            }
+            catch (Exception Ex)
+            {
+                return InternalServerError();
+            }
+        }
 
         [Route("GetAcademic/{UserID}")]
         [HttpPost]
@@ -141,9 +193,28 @@ namespace IESMater_WebAPI.Controllers
         {
             try
             {
-                string Message = "Register with IES Master using OTP " + value.String_OTP; 
-                String result = Utility.sendSMS(Message,value.MobileNumber);
-                return Ok();
+                var context = new xPenEntities();
+                string Message = "Register with IES Master using OTP " + value.String_OTP;
+
+                var user = (from u in context.IESUserProfiles
+                            where u.MobileNumber == value.MobileNumber
+                            select u).ToList();
+                if (user.Count == 1)
+                {
+                    String result = Utility.sendSMS(Message, value.MobileNumber);
+                    JObject json = JObject.Parse(result);
+                    String status = json.GetValue("status").ToString();
+                    return Ok(json);
+                }
+                else if (user.Count == 0)
+                {
+                    CustomResponse cr = new CustomResponse();
+                    cr.Response = "Mobile number is not registered";
+                    return BadRequest();
+                }
+                else {
+                    return BadRequest();
+                }
             }
             catch (Exception Ex)
             {

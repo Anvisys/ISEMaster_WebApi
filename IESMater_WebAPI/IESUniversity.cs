@@ -15,6 +15,6 @@ namespace IESMater_WebAPI
     public partial class IESUniversity
     {
         public int UnivID { get; set; }
-        public string Name { get; set; }
+        public string UniversityName { get; set; }
     }
 }

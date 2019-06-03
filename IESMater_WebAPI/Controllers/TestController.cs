@@ -65,7 +65,7 @@ namespace IESMater_WebAPI.Controllers
         }
 
 
-        [Route("University/{UniversityID}/{StreamID}")]
+        [Route("GetSubject/{UniversityID}/{StreamID}")]
         [HttpGet]
         public IEnumerable<Object> GetSubjectsfromQuestionPaperforUniversity(int UniversityID, int StreamID)
         {
@@ -73,43 +73,50 @@ namespace IESMater_WebAPI.Controllers
             var subjects = (from s in context.ViewIESQuestionPapers
 
                             where s.UnivID == UniversityID && s.StreamID == StreamID
-                            group s by s.SubjectName into subjectlist
-                            select new { subjectname = subjectlist.Key }).ToList();
+                            group s by new {s.SubjectID, s.SubjectName } into subjectlist
+                            select new {SubjectId= subjectlist.Key.SubjectID, SubjectName = subjectlist.Key.SubjectName }).ToList();
             return subjects;
         }
 
 
 
-        [Route("{UniversityID}/{streamID}/{SubjectName}")]
+        [Route("GetYear/{UniversityID}/{streamID}/{SubjectId}")]
         [HttpGet]
-        public IEnumerable<Object> GetYearsfromQuestionPaper(int UniversityID, int streamID, String SubjectName)
+        public IHttpActionResult GetYearsfromQuestionPaper(int UniversityID, int streamID, int SubjectId)
         {
-            var context = new xPenEntities();
-            var test = (from s in context.ViewIESQuestionPapers
-                        where s.UnivID == UniversityID && s.StreamID == streamID && s.SubjectName == SubjectName
-                        group s by s.Year into yearGroup
-                        select new { year=yearGroup.Key }).ToList();
+            try
+            {
+                var context = new xPenEntities();
+                var test = (from s in context.ViewIESQuestionPapers
+                            where s.UnivID == UniversityID && s.StreamID == streamID && s.SubjectID == SubjectId
+                            group s by s.Year into yearGroup
+                            select new { year = yearGroup.Key }).ToList();
 
-            return test;
+                return Ok(test);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex.InnerException);
+            }
         }
 
 
-        [Route("{UniversityID}/{streamID}/{SubjectName}/{Year}")]
+        [Route("GetUnit/{UniversityID}/{streamID}/{SubjectId}/{Year}")]
         [HttpGet]
-        public IEnumerable<Object> GetUnitforProfile(int UniversityID, int streamID, String SubjectName, int Year)
+        public IEnumerable<Object> GetUnitforProfile(int UniversityID, int streamID, int SubjectId, int Year)
         {
             var context = new xPenEntities();
             var test = (from s in context.ViewIESQuestionPapers
-                        where s.UnivID == UniversityID && s.StreamID == streamID && s.SubjectName == SubjectName && s.Year == Year
+                        where s.UnivID == UniversityID && s.StreamID == streamID && s.SubjectID == SubjectId && s.Year == Year
                         group s by s.Unit into unitGroup
                         select new { Unit = unitGroup.Key }).ToList();
 
             return test;
         }
 
-        [Route("{UniversityID}/{streamID}/{SubjectName}/{Year}/{Unit}/{UserId}")]
+        [Route("{UniversityID}/{streamID}/{SubjectId}/{Year}/{Unit}/{UserId}")]
         [HttpGet]
-        public IEnumerable<Object> GetQuestionforProfile(int UniversityID, int streamID, String SubjectName, int Year, int Unit, int UserId)
+        public IEnumerable<Object> GetQuestionforProfile(int UniversityID, int streamID, int SubjectId, int Year, int Unit, int UserId)
         {
             var context = new xPenEntities();
 
@@ -119,7 +126,7 @@ namespace IESMater_WebAPI.Controllers
 
             var test = (from s in context.ViewIESQuestionPapers
                         where s.UnivID == UniversityID && s.StreamID == streamID 
-                        && s.SubjectName == SubjectName && s.Year == Year && s.Unit == Unit
+                        && s.SubjectID == SubjectId && s.Year == Year && s.Unit == Unit
                         select s).ToList();
 
             //var myTest = from t in test

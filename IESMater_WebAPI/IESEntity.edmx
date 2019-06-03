@@ -5,13 +5,61 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="xPenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="AccID" />
+          </Key>
+          <Property Name="AccID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AccountDescription" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrgID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESAcademicProfile">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnivID" Type="varchar" MaxLength="50" />
+          <Property Name="CollegeID" Type="int" Nullable="false" />
+          <Property Name="StreamID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="SemesterID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESClass">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseID" Type="int" />
+          <Property Name="Semester" Type="int" />
+        </EntityType>
+        <EntityType Name="IESClass_Subject">
+          <Key>
+            <PropertyRef Name="ClassSubID" />
+          </Key>
+          <Property Name="ClassSubID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CollegeID" Type="int" />
+          <Property Name="StreamID" Type="int" />
+          <Property Name="SemesterID" Type="int" />
+          <Property Name="SubjectID" Type="int" />
+        </EntityType>
         <EntityType Name="IESCollege">
           <Key>
             <PropertyRef Name="CollegeID" />
           </Key>
           <Property Name="CollegeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="College_Name" Type="varchar" MaxLength="50" />
+          <Property Name="CollegeName" Type="varchar" MaxLength="50" />
           <Property Name="UnivID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESCourse">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CollegeID" Type="int" />
+          <Property Name="StreamID" Type="int" />
         </EntityType>
         <EntityType Name="IESObjectiveQuestions">
           <Key>
@@ -25,73 +73,90 @@
           <Property Name="option_d" Type="varchar" MaxLength="50" />
           <Property Name="CorrectOption" Type="int" />
         </EntityType>
-        <EntityType Name="IESObjectiveTest">
+        <EntityType Name="IESOrder">
           <Key>
-            <PropertyRef Name="QPaperID" />
+            <PropertyRef Name="OrderID" />
           </Key>
-          <Property Name="QPaperID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UnivID" Type="int" />
-          <Property Name="StreamID" Type="int" />
-          <Property Name="SemId" Type="int" />
-          <Property Name="QuestionID" Type="int" Nullable="false" />
+          <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Paid" Type="int" Nullable="false" />
+          <Property Name="PurchaseDate" Type="datetime" Nullable="false" />
+          <Property Name="ClosureDate" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="IESSem">
+        <EntityType Name="IESOrderTransaction">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="Key" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESPaper-Question">
+          <Key>
+            <PropertyRef Name="PaperQuestionID" />
+          </Key>
+          <Property Name="PaperQuestionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaperID" Type="int" Nullable="false" />
+          <Property Name="QuesID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESQuestionPaper">
+          <Key>
+            <PropertyRef Name="PaperID" />
+          </Key>
+          <Property Name="PaperID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
+          <Property Name="CollegeID" Type="int" Nullable="false" />
+          <Property Name="StreamID" Type="int" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="SemID" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESQuestions">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="300" />
+          <Property Name="Solution" Type="varchar" MaxLength="1000" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="TopicID" Type="int" Nullable="false" />
+          <Property Name="DifficultyLevel" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESSemester">
           <Key>
             <PropertyRef Name="SemID" />
           </Key>
           <Property Name="SemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Sem_Name" Type="varchar" MaxLength="50" />
+          <Property Name="SemesterName" Type="varchar" MaxLength="50" />
+          <Property Name="Semester" Type="int" />
         </EntityType>
         <EntityType Name="IESStream">
           <Key>
             <PropertyRef Name="StreamID" />
           </Key>
           <Property Name="StreamID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Stream_Name" Type="varchar" MaxLength="50" />
-          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="StreamName" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="1000" />
         </EntityType>
-        <EntityType Name="IESSubjectiveQuestion">
+        <EntityType Name="IESSubject">
           <Key>
-            <PropertyRef Name="QuesID" />
+            <PropertyRef Name="SubjectID" />
           </Key>
-          <Property Name="QuesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Question" Type="varchar" MaxLength="300" />
-          <Property Name="answer" Type="varchar" MaxLength="1000" />
-          <Property Name="[SubjectID]" Type="int" Nullable="false" />
-          <Property Name="SemID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="IESSubjectiveTests">
-          <Key>
-            <PropertyRef Name="SNo" />
-          </Key>
-          <Property Name="SNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PaperID" Type="int" Nullable="false" />
-          <Property Name="UnivID" Type="int" Nullable="false" />
-          <Property Name="StreamID" Type="int" Nullable="false" />
-          <Property Name="SemID" Type="int" Nullable="false" />
-          <Property Name="SubjectID" Type="int" Nullable="false" />
-          <Property Name="Price" Type="int" Nullable="false" />
-          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="CReationDate" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="IESTestPaperInventory">
-          <Key>
-            <PropertyRef Name="SerialNO" />
-          </Key>
-          <Property Name="SerialNO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PaperID" Type="int" Nullable="false" />
-          <Property Name="QuesID" Type="int" Nullable="false" />
-          <Property Name="SubjectID" Type="int" />
-          <Property Name="StreamID" Type="int" />
+          <Property Name="SubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectName" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="1000" />
+          <Property Name="Unit" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="IESUniversity">
           <Key>
             <PropertyRef Name="UnivID" />
           </Key>
           <Property Name="UnivID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="UniversityName" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="IESUserProfile">
           <Key>
@@ -99,70 +164,339 @@
           </Key>
           <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Token" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
-          <Property Name="CollegeID" Type="int" Nullable="false" />
-          <Property Name="StreamID" Type="int" Nullable="false" />
-          <Property Name="SemesterID" Type="int" Nullable="false" />
-          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="ActivationDate" Type="datetime" Nullable="false" />
-          <Property Name="DisableDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'xPen.dbo.iesViewUserProfile' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="iesViewUserProfile">
+warning 6002: The table/view 'xPen.dbo.ViewIESAcademicProfile' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESAcademicProfile">
           <Key>
+            <PropertyRef Name="ProfileID" />
             <PropertyRef Name="UserID" />
-            <PropertyRef Name="UnivID" />
             <PropertyRef Name="CollegeID" />
             <PropertyRef Name="StreamID" />
             <PropertyRef Name="SemesterID" />
-            <PropertyRef Name="Status" />
-            <PropertyRef Name="ActivationDate" />
-            <PropertyRef Name="DisableDate" />
           </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="Token" Type="varchar" MaxLength="50" />
-          <Property Name="Email" Type="varchar" MaxLength="50" />
-          <Property Name="UnivID" Type="int" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="UNIVID" Type="varchar" MaxLength="50" />
+          <Property Name="UNIVERSITYNAME" Type="varchar" MaxLength="50" />
           <Property Name="CollegeID" Type="int" Nullable="false" />
-          <Property Name="College_Name" Type="varchar" MaxLength="50" />
-          <Property Name="Stream_Name" Type="varchar" MaxLength="50" />
+          <Property Name="CollegeName" Type="varchar" MaxLength="50" />
           <Property Name="StreamID" Type="int" Nullable="false" />
+          <Property Name="StreamName" Type="varchar" MaxLength="50" />
           <Property Name="SemesterID" Type="int" Nullable="false" />
-          <Property Name="Sem_Name" Type="varchar" MaxLength="50" />
-          <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="ActivationDate" Type="datetime" Nullable="false" />
-          <Property Name="DisableDate" Type="datetime" Nullable="false" />
+          <Property Name="SemesterName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESCollege' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESCollege">
+          <Key>
+            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="StreamID" />
+          </Key>
+          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="CollegeID" Type="int" Nullable="false" />
+          <Property Name="CollegeName" Type="varchar" MaxLength="50" />
+          <Property Name="StreamID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESCollegeWithCount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESCollegeWithCount">
+          <Key>
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="StudentCount" />
+            <PropertyRef Name="StreamCount" />
+          </Key>
+          <Property Name="CollegeID" Type="int" Nullable="false" />
+          <Property Name="CollegeName" Type="varchar" MaxLength="50" />
+          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="StudentCount" Type="int" Nullable="false" />
+          <Property Name="StreamCount" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESCountinStream' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESCountinStream">
+          <Key>
+            <PropertyRef Name="StreamId" />
+            <PropertyRef Name="NoOfStudent" />
+            <PropertyRef Name="NoOfColleges" />
+          </Key>
+          <Property Name="StreamId" Type="int" Nullable="false" />
+          <Property Name="StreamName" Type="varchar" MaxLength="50" />
+          <Property Name="NoOfStudent" Type="int" Nullable="false" />
+          <Property Name="NoOfColleges" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESPaperQuestion' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESPaperQuestion">
+          <Key>
+            <PropertyRef Name="PaperQuestionID" />
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="QuesID" />
+          </Key>
+          <Property Name="PaperQuestionID" Type="int" Nullable="false" />
+          <Property Name="PaperID" Type="int" Nullable="false" />
+          <Property Name="QuesID" Type="int" Nullable="false" />
+          <Property Name="UniversityID" Type="int" />
+          <Property Name="CollegeID" Type="int" />
+          <Property Name="StreamID" Type="int" />
+          <Property Name="SubjectID" Type="int" />
+          <Property Name="SemID" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Question" Type="varchar" MaxLength="300" />
+          <Property Name="Solution" Type="varchar" MaxLength="1000" />
+          <Property Name="TopicID" Type="int" />
+          <Property Name="DifficultyLevel" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESQuestionPaper' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESQuestionPaper">
+          <Key>
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Cost" />
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="StreamID" />
+            <PropertyRef Name="SemID" />
+          </Key>
+          <Property Name="PaperID" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="int" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="SubjectName" Type="varchar" MaxLength="50" />
+          <Property Name="Unit" Type="int" />
+          <Property Name="CollegeID" Type="int" Nullable="false" />
+          <Property Name="CollegeName" Type="varchar" MaxLength="50" />
+          <Property Name="UnivID" Type="int" />
+          <Property Name="UniversityName" Type="varchar" MaxLength="50" />
+          <Property Name="StreamID" Type="int" Nullable="false" />
+          <Property Name="StreamName" Type="varchar" MaxLength="50" />
+          <Property Name="SemID" Type="int" Nullable="false" />
+          <Property Name="SemesterName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESQuestions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESQuestions">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="TopicID" />
+          </Key>
+          <Property Name="QuestionID" Type="int" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="300" />
+          <Property Name="Answer" Type="varchar" MaxLength="1000" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="SubjectName" Type="varchar" MaxLength="50" />
+          <Property Name="Unit" Type="int" />
+          <Property Name="TopicID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESStream' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESStream">
+          <Key>
+            <PropertyRef Name="StreamID" />
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="CollegeName" />
+            <PropertyRef Name="UnivID" />
+          </Key>
+          <Property Name="StreamID" Type="int" Nullable="false" />
+          <Property Name="StreamName" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="1000" />
+          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="CollegeID" Type="int" Nullable="false" />
+          <Property Name="CollegeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UnivID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESStreamofCollege' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESStreamofCollege">
+          <Key>
+            <PropertyRef Name="CollegeName" />
+            <PropertyRef Name="StreamID" />
+          </Key>
+          <Property Name="CollegeID" Type="int" />
+          <Property Name="UniversityName" Type="varchar" MaxLength="50" />
+          <Property Name="CollegeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StreamID" Type="int" Nullable="false" />
+          <Property Name="StreamName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESSubject' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESSubject">
+          <Key>
+            <PropertyRef Name="ClassSubID" />
+          </Key>
+          <Property Name="ClassSubID" Type="int" Nullable="false" />
+          <Property Name="UnivID" Type="int" />
+          <Property Name="CollegeID" Type="int" />
+          <Property Name="StreamID" Type="int" />
+          <Property Name="SemesterID" Type="int" />
+          <Property Name="SubjectID" Type="int" />
+          <Property Name="SubjectName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewIESUniversityWithCount">
+          <Key>
+            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="StudentCount" />
+            <PropertyRef Name="CollegeCount" />
+          </Key>
+          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="UniversityName" Type="varchar" MaxLength="50" />
+          <Property Name="StudentCount" Type="int" Nullable="false" />
+          <Property Name="CollegeCount" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="xPenModelStoreContainer">
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESAcademicProfile" EntityType="Self.IESAcademicProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESClass" EntityType="Self.IESClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESClass_Subject" EntityType="Self.IESClass_Subject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IESCollege" EntityType="Self.IESCollege" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESCourse" EntityType="Self.IESCourse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IESObjectiveQuestions" EntityType="Self.IESObjectiveQuestions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="IESObjectiveTest" EntityType="Self.IESObjectiveTest" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="IESSem" EntityType="Self.IESSem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESOrder" EntityType="Self.IESOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESOrderTransaction" EntityType="Self.IESOrderTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESPaper-Question" EntityType="Self.IESPaper-Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESQuestionPaper" EntityType="Self.IESQuestionPaper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESQuestions" EntityType="Self.IESQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESSemester" EntityType="Self.IESSemester" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IESStream" EntityType="Self.IESStream" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="IESSubjectiveQuestion" EntityType="Self.IESSubjectiveQuestion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="IESSubjectiveTests" EntityType="Self.IESSubjectiveTests" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="IESTestPaperInventory" EntityType="Self.IESTestPaperInventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IESSubject" EntityType="Self.IESSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IESUniversity" EntityType="Self.IESUniversity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IESUserProfile" EntityType="Self.IESUserProfile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="iesViewUserProfile" EntityType="Self.iesViewUserProfile" store:Type="Views" store:Schema="dbo">
+          <EntitySet Name="ViewIESAcademicProfile" EntityType="Self.ViewIESAcademicProfile" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [iesViewUserProfile].[UserID] AS [UserID], 
-    [iesViewUserProfile].[Token] AS [Token], 
-    [iesViewUserProfile].[Email] AS [Email], 
-    [iesViewUserProfile].[UnivID] AS [UnivID], 
-    [iesViewUserProfile].[Name] AS [Name], 
-    [iesViewUserProfile].[CollegeID] AS [CollegeID], 
-    [iesViewUserProfile].[College_Name] AS [College_Name], 
-    [iesViewUserProfile].[Stream_Name] AS [Stream_Name], 
-    [iesViewUserProfile].[StreamID] AS [StreamID], 
-    [iesViewUserProfile].[SemesterID] AS [SemesterID], 
-    [iesViewUserProfile].[Sem_Name] AS [Sem_Name], 
-    [iesViewUserProfile].[Status] AS [Status], 
-    [iesViewUserProfile].[ActivationDate] AS [ActivationDate], 
-    [iesViewUserProfile].[DisableDate] AS [DisableDate]
-    FROM [dbo].[iesViewUserProfile] AS [iesViewUserProfile]</DefiningQuery>
+    [ViewIESAcademicProfile].[ProfileID] AS [ProfileID], 
+    [ViewIESAcademicProfile].[UserID] AS [UserID], 
+    [ViewIESAcademicProfile].[UNIVID] AS [UNIVID], 
+    [ViewIESAcademicProfile].[UNIVERSITYNAME] AS [UNIVERSITYNAME], 
+    [ViewIESAcademicProfile].[CollegeID] AS [CollegeID], 
+    [ViewIESAcademicProfile].[CollegeName] AS [CollegeName], 
+    [ViewIESAcademicProfile].[StreamID] AS [StreamID], 
+    [ViewIESAcademicProfile].[StreamName] AS [StreamName], 
+    [ViewIESAcademicProfile].[SemesterID] AS [SemesterID], 
+    [ViewIESAcademicProfile].[SemesterName] AS [SemesterName]
+    FROM [dbo].[ViewIESAcademicProfile] AS [ViewIESAcademicProfile]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESCollege" EntityType="Self.ViewIESCollege" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESCollege].[UnivID] AS [UnivID], 
+    [ViewIESCollege].[CollegeID] AS [CollegeID], 
+    [ViewIESCollege].[CollegeName] AS [CollegeName], 
+    [ViewIESCollege].[StreamID] AS [StreamID]
+    FROM [dbo].[ViewIESCollege] AS [ViewIESCollege]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESCollegeWithCount" EntityType="Self.ViewIESCollegeWithCount" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESCollegeWithCount].[CollegeID] AS [CollegeID], 
+    [ViewIESCollegeWithCount].[CollegeName] AS [CollegeName], 
+    [ViewIESCollegeWithCount].[UnivID] AS [UnivID], 
+    [ViewIESCollegeWithCount].[StudentCount] AS [StudentCount], 
+    [ViewIESCollegeWithCount].[StreamCount] AS [StreamCount]
+    FROM [dbo].[ViewIESCollegeWithCount] AS [ViewIESCollegeWithCount]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESCountinStream" EntityType="Self.ViewIESCountinStream" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESCountinStream].[StreamId] AS [StreamId], 
+    [ViewIESCountinStream].[StreamName] AS [StreamName], 
+    [ViewIESCountinStream].[NoOfStudent] AS [NoOfStudent], 
+    [ViewIESCountinStream].[NoOfColleges] AS [NoOfColleges]
+    FROM [dbo].[ViewIESCountinStream] AS [ViewIESCountinStream]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESPaperQuestion" EntityType="Self.ViewIESPaperQuestion" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESPaperQuestion].[PaperQuestionID] AS [PaperQuestionID], 
+    [ViewIESPaperQuestion].[PaperID] AS [PaperID], 
+    [ViewIESPaperQuestion].[QuesID] AS [QuesID], 
+    [ViewIESPaperQuestion].[UniversityID] AS [UniversityID], 
+    [ViewIESPaperQuestion].[CollegeID] AS [CollegeID], 
+    [ViewIESPaperQuestion].[StreamID] AS [StreamID], 
+    [ViewIESPaperQuestion].[SubjectID] AS [SubjectID], 
+    [ViewIESPaperQuestion].[SemID] AS [SemID], 
+    [ViewIESPaperQuestion].[Year] AS [Year], 
+    [ViewIESPaperQuestion].[Question] AS [Question], 
+    [ViewIESPaperQuestion].[Solution] AS [Solution], 
+    [ViewIESPaperQuestion].[TopicID] AS [TopicID], 
+    [ViewIESPaperQuestion].[DifficultyLevel] AS [DifficultyLevel]
+    FROM [dbo].[ViewIESPaperQuestion] AS [ViewIESPaperQuestion]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESQuestionPaper" EntityType="Self.ViewIESQuestionPaper" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESQuestionPaper].[PaperID] AS [PaperID], 
+    [ViewIESQuestionPaper].[Year] AS [Year], 
+    [ViewIESQuestionPaper].[Cost] AS [Cost], 
+    [ViewIESQuestionPaper].[SubjectID] AS [SubjectID], 
+    [ViewIESQuestionPaper].[SubjectName] AS [SubjectName], 
+    [ViewIESQuestionPaper].[Unit] AS [Unit], 
+    [ViewIESQuestionPaper].[CollegeID] AS [CollegeID], 
+    [ViewIESQuestionPaper].[CollegeName] AS [CollegeName], 
+    [ViewIESQuestionPaper].[UnivID] AS [UnivID], 
+    [ViewIESQuestionPaper].[UniversityName] AS [UniversityName], 
+    [ViewIESQuestionPaper].[StreamID] AS [StreamID], 
+    [ViewIESQuestionPaper].[StreamName] AS [StreamName], 
+    [ViewIESQuestionPaper].[SemID] AS [SemID], 
+    [ViewIESQuestionPaper].[SemesterName] AS [SemesterName]
+    FROM [dbo].[ViewIESQuestionPaper] AS [ViewIESQuestionPaper]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESQuestions" EntityType="Self.ViewIESQuestions" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESQuestions].[QuestionID] AS [QuestionID], 
+    [ViewIESQuestions].[Question] AS [Question], 
+    [ViewIESQuestions].[Answer] AS [Answer], 
+    [ViewIESQuestions].[SubjectID] AS [SubjectID], 
+    [ViewIESQuestions].[SubjectName] AS [SubjectName], 
+    [ViewIESQuestions].[Unit] AS [Unit], 
+    [ViewIESQuestions].[TopicID] AS [TopicID]
+    FROM [dbo].[ViewIESQuestions] AS [ViewIESQuestions]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESStream" EntityType="Self.ViewIESStream" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESStream].[StreamID] AS [StreamID], 
+    [ViewIESStream].[StreamName] AS [StreamName], 
+    [ViewIESStream].[Description] AS [Description], 
+    [ViewIESStream].[CourseID] AS [CourseID], 
+    [ViewIESStream].[CollegeID] AS [CollegeID], 
+    [ViewIESStream].[CollegeName] AS [CollegeName], 
+    [ViewIESStream].[UnivID] AS [UnivID]
+    FROM [dbo].[ViewIESStream] AS [ViewIESStream]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESStreamofCollege" EntityType="Self.ViewIESStreamofCollege" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESStreamofCollege].[CollegeID] AS [CollegeID], 
+    [ViewIESStreamofCollege].[UniversityName] AS [UniversityName], 
+    [ViewIESStreamofCollege].[CollegeName] AS [CollegeName], 
+    [ViewIESStreamofCollege].[StreamID] AS [StreamID], 
+    [ViewIESStreamofCollege].[StreamName] AS [StreamName]
+    FROM [dbo].[ViewIESStreamofCollege] AS [ViewIESStreamofCollege]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESSubject" EntityType="Self.ViewIESSubject" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESSubject].[ClassSubID] AS [ClassSubID], 
+    [ViewIESSubject].[UnivID] AS [UnivID], 
+    [ViewIESSubject].[CollegeID] AS [CollegeID], 
+    [ViewIESSubject].[StreamID] AS [StreamID], 
+    [ViewIESSubject].[SemesterID] AS [SemesterID], 
+    [ViewIESSubject].[SubjectID] AS [SubjectID], 
+    [ViewIESSubject].[SubjectName] AS [SubjectName]
+    FROM [dbo].[ViewIESSubject] AS [ViewIESSubject]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewIESUniversityWithCount" EntityType="Self.ViewIESUniversityWithCount" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewIESUniversityWithCount].[UnivID] AS [UnivID], 
+    [ViewIESUniversityWithCount].[UniversityName] AS [UniversityName], 
+    [ViewIESUniversityWithCount].[StudentCount] AS [StudentCount], 
+    [ViewIESUniversityWithCount].[CollegeCount] AS [CollegeCount]
+    FROM [dbo].[ViewIESUniversityWithCount] AS [ViewIESUniversityWithCount]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -170,87 +504,90 @@ warning 6002: The table/view 'xPen.dbo.iesViewUserProfile' does not have a prima
     <edmx:ConceptualModels>
       <Schema Namespace="xPenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="xPenEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Accounts" EntityType="xPenModel.Account" />
+          <EntitySet Name="IESAcademicProfiles" EntityType="xPenModel.IESAcademicProfile" />
+          <EntitySet Name="IESClasses" EntityType="xPenModel.IESClass" />
+          <EntitySet Name="IESClass_Subject" EntityType="xPenModel.IESClass_Subject" />
           <EntitySet Name="IESColleges" EntityType="xPenModel.IESCollege" />
-          <EntitySet Name="IESSems" EntityType="xPenModel.IESSem" />
+          <EntitySet Name="IESCourses" EntityType="xPenModel.IESCourse" />
+          <EntitySet Name="IESObjectiveQuestions" EntityType="xPenModel.IESObjectiveQuestion" />
+          <EntitySet Name="IESOrders" EntityType="xPenModel.IESOrder" />
+          <EntitySet Name="IESOrderTransactions" EntityType="xPenModel.IESOrderTransaction" />
+          <EntitySet Name="IESPaper_Question" EntityType="xPenModel.IESPaper_Question" />
+          <EntitySet Name="IESQuestionPapers" EntityType="xPenModel.IESQuestionPaper" />
+          <EntitySet Name="IESQuestions" EntityType="xPenModel.IESQuestion" />
+          <EntitySet Name="IESSemesters" EntityType="xPenModel.IESSemester" />
           <EntitySet Name="IESStreams" EntityType="xPenModel.IESStream" />
+          <EntitySet Name="IESSubjects" EntityType="xPenModel.IESSubject" />
           <EntitySet Name="IESUniversities" EntityType="xPenModel.IESUniversity" />
           <EntitySet Name="IESUserProfiles" EntityType="xPenModel.IESUserProfile" />
-          <EntitySet Name="iesViewUserProfiles" EntityType="xPenModel.iesViewUserProfile" />
-          <EntitySet Name="IESObjectiveQuestions" EntityType="xPenModel.IESObjectiveQuestion" />
-          <EntitySet Name="IESObjectiveTests" EntityType="xPenModel.IESObjectiveTest" />
-          <EntitySet Name="IESSubjectiveTests" EntityType="xPenModel.IESSubjectiveTest" />
-          <EntitySet Name="IESTestPaperInventories" EntityType="xPenModel.IESTestPaperInventory" />
-          <EntitySet Name="IESSubjectiveQuestions" EntityType="xPenModel.IESSubjectiveQuestion" />
+          <EntitySet Name="ViewIESAcademicProfiles" EntityType="xPenModel.ViewIESAcademicProfile" />
+          <EntitySet Name="ViewIESColleges" EntityType="xPenModel.ViewIESCollege" />
+          <EntitySet Name="ViewIESCollegeWithCounts" EntityType="xPenModel.ViewIESCollegeWithCount" />
+          <EntitySet Name="ViewIESCountinStreams" EntityType="xPenModel.ViewIESCountinStream" />
+          <EntitySet Name="ViewIESPaperQuestions" EntityType="xPenModel.ViewIESPaperQuestion" />
+          <EntitySet Name="ViewIESQuestionPapers" EntityType="xPenModel.ViewIESQuestionPaper" />
+          <EntitySet Name="ViewIESQuestions" EntityType="xPenModel.ViewIESQuestion" />
+          <EntitySet Name="ViewIESStreams" EntityType="xPenModel.ViewIESStream" />
+          <EntitySet Name="ViewIESStreamofColleges" EntityType="xPenModel.ViewIESStreamofCollege" />
+          <EntitySet Name="ViewIESSubjects" EntityType="xPenModel.ViewIESSubject" />
+          <EntitySet Name="ViewIESUniversityWithCounts" EntityType="xPenModel.ViewIESUniversityWithCount" />
         </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccID" />
+          </Key>
+          <Property Name="AccID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AccountDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrgID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESAcademicProfile">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnivID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CollegeID" Type="Int32" Nullable="false" />
+          <Property Name="StreamID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="SemesterID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESClass">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseID" Type="Int32" />
+          <Property Name="Semester" Type="Int32" />
+        </EntityType>
+        <EntityType Name="IESClass_Subject">
+          <Key>
+            <PropertyRef Name="ClassSubID" />
+          </Key>
+          <Property Name="ClassSubID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CollegeID" Type="Int32" />
+          <Property Name="StreamID" Type="Int32" />
+          <Property Name="SemesterID" Type="Int32" />
+          <Property Name="SubjectID" Type="Int32" />
+        </EntityType>
         <EntityType Name="IESCollege">
           <Key>
             <PropertyRef Name="CollegeID" />
           </Key>
           <Property Name="CollegeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="College_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UnivID" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="IESSem">
+        <EntityType Name="IESCourse">
           <Key>
-            <PropertyRef Name="SemID" />
+            <PropertyRef Name="CourseID" />
           </Key>
-          <Property Name="SemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Sem_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="IESStream">
-          <Key>
-            <PropertyRef Name="StreamID" />
-          </Key>
-          <Property Name="StreamID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Stream_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UnivID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="IESUniversity">
-          <Key>
-            <PropertyRef Name="UnivID" />
-          </Key>
-          <Property Name="UnivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="IESUserProfile">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CollegeID" Type="Int32" Nullable="false" />
-          <Property Name="StreamID" Type="Int32" Nullable="false" />
-          <Property Name="SemesterID" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="ActivationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DisableDate" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
-        <EntityType Name="iesViewUserProfile">
-          <Key>
-            <PropertyRef Name="UserID" />
-            <PropertyRef Name="UnivID" />
-            <PropertyRef Name="CollegeID" />
-            <PropertyRef Name="StreamID" />
-            <PropertyRef Name="SemesterID" />
-            <PropertyRef Name="Status" />
-            <PropertyRef Name="ActivationDate" />
-            <PropertyRef Name="DisableDate" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UnivID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CollegeID" Type="Int32" Nullable="false" />
-          <Property Name="College_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Stream_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="StreamID" Type="Int32" Nullable="false" />
-          <Property Name="SemesterID" Type="Int32" Nullable="false" />
-          <Property Name="Sem_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="ActivationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DisableDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CourseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CollegeID" Type="Int32" />
+          <Property Name="StreamID" Type="Int32" />
         </EntityType>
         <EntityType Name="IESObjectiveQuestion">
           <Key>
@@ -264,124 +601,332 @@ warning 6002: The table/view 'xPen.dbo.iesViewUserProfile' does not have a prima
           <Property Name="option_d" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CorrectOption" Type="Int32" />
         </EntityType>
-        <EntityType Name="IESObjectiveTest">
+        <EntityType Name="IESOrder">
           <Key>
-            <PropertyRef Name="QPaperID" />
+            <PropertyRef Name="OrderID" />
           </Key>
-          <Property Name="QPaperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UnivID" Type="Int32" />
-          <Property Name="StreamID" Type="Int32" />
-          <Property Name="SemId" Type="Int32" />
-          <Property Name="QuestionID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="IESSubjectiveTest">
-          <Key>
-            <PropertyRef Name="SNo" />
-          </Key>
-          <Property Name="SNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PaperID" Type="Int32" Nullable="false" />
-          <Property Name="UnivID" Type="Int32" Nullable="false" />
-          <Property Name="StreamID" Type="Int32" Nullable="false" />
-          <Property Name="SemID" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CReationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Paid" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ClosureDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-        <EntityType Name="IESTestPaperInventory">
+        <EntityType Name="IESOrderTransaction">
           <Key>
-            <PropertyRef Name="SerialNO" />
+            <PropertyRef Name="TransactionID" />
           </Key>
-          <Property Name="SerialNO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransactionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="IESPaper_Question">
+          <Key>
+            <PropertyRef Name="PaperQuestionID" />
+          </Key>
+          <Property Name="PaperQuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PaperID" Type="Int32" Nullable="false" />
           <Property Name="QuesID" Type="Int32" Nullable="false" />
-          <Property Name="SubjectID" Type="Int32" />
-          <Property Name="StreamID" Type="Int32" />
         </EntityType>
-        <EntityType Name="IESSubjectiveQuestion">
+        <EntityType Name="IESQuestionPaper">
           <Key>
+            <PropertyRef Name="PaperID" />
+          </Key>
+          <Property Name="PaperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeID" Type="Int32" Nullable="false" />
+          <Property Name="StreamID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="SemID" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESQuestion">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Solution" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="TopicID" Type="Int32" Nullable="false" />
+          <Property Name="DifficultyLevel" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESSemester">
+          <Key>
+            <PropertyRef Name="SemID" />
+          </Key>
+          <Property Name="SemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SemesterName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Semester" Type="Int32" />
+        </EntityType>
+        <EntityType Name="IESStream">
+          <Key>
+            <PropertyRef Name="StreamID" />
+          </Key>
+          <Property Name="StreamID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="IESSubject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Unit" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IESUniversity">
+          <Key>
+            <PropertyRef Name="UnivID" />
+          </Key>
+          <Property Name="UnivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UniversityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="IESUserProfile">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActivationDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ViewIESAcademicProfile">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="StreamID" />
+            <PropertyRef Name="SemesterID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UNIVID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UNIVERSITYNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CollegeID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StreamID" Type="Int32" Nullable="false" />
+          <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SemesterID" Type="Int32" Nullable="false" />
+          <Property Name="SemesterName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewIESCollege">
+          <Key>
+            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="StreamID" />
+          </Key>
+          <Property Name="UnivID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StreamID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewIESCollegeWithCount">
+          <Key>
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="StudentCount" />
+            <PropertyRef Name="StreamCount" />
+          </Key>
+          <Property Name="CollegeID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UnivID" Type="Int32" Nullable="false" />
+          <Property Name="StudentCount" Type="Int32" Nullable="false" />
+          <Property Name="StreamCount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewIESCountinStream">
+          <Key>
+            <PropertyRef Name="StreamId" />
+            <PropertyRef Name="NoOfStudent" />
+            <PropertyRef Name="NoOfColleges" />
+          </Key>
+          <Property Name="StreamId" Type="Int32" Nullable="false" />
+          <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfStudent" Type="Int32" Nullable="false" />
+          <Property Name="NoOfColleges" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewIESPaperQuestion">
+          <Key>
+            <PropertyRef Name="PaperQuestionID" />
+            <PropertyRef Name="PaperID" />
             <PropertyRef Name="QuesID" />
           </Key>
-          <Property Name="QuesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaperQuestionID" Type="Int32" Nullable="false" />
+          <Property Name="PaperID" Type="Int32" Nullable="false" />
+          <Property Name="QuesID" Type="Int32" Nullable="false" />
+          <Property Name="UniversityID" Type="Int32" />
+          <Property Name="CollegeID" Type="Int32" />
+          <Property Name="StreamID" Type="Int32" />
+          <Property Name="SubjectID" Type="Int32" />
+          <Property Name="SemID" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
           <Property Name="Question" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="answer" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="C_SubjectID_" Type="Int32" Nullable="false" />
-          <Property Name="SemID" Type="Int32" Nullable="false" />
+          <Property Name="Solution" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="TopicID" Type="Int32" />
+          <Property Name="DifficultyLevel" Type="Int32" />
         </EntityType>
-      </Schema>
+        <EntityType Name="ViewIESQuestionPaper">
+          <Key>
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Cost" />
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="StreamID" />
+            <PropertyRef Name="SemID" />
+          </Key>
+          <Property Name="PaperID" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Int32" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Unit" Type="Int32" />
+          <Property Name="CollegeID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UnivID" Type="Int32" />
+          <Property Name="UniversityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StreamID" Type="Int32" Nullable="false" />
+          <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SemID" Type="Int32" Nullable="false" />
+          <Property Name="SemesterName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewIESQuestion">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="TopicID" />
+          </Key>
+          <Property Name="QuestionID" Type="Int32" Nullable="false" />
+          <Property Name="Question" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Answer" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Unit" Type="Int32" />
+          <Property Name="TopicID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewIESStream">
+          <Key>
+            <PropertyRef Name="StreamID" />
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="CollegeName" />
+            <PropertyRef Name="UnivID" />
+          </Key>
+          <Property Name="StreamID" Type="Int32" Nullable="false" />
+          <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UnivID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewIESStreamofCollege">
+          <Key>
+            <PropertyRef Name="CollegeName" />
+            <PropertyRef Name="StreamID" />
+          </Key>
+          <Property Name="CollegeID" Type="Int32" />
+          <Property Name="UniversityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CollegeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StreamID" Type="Int32" Nullable="false" />
+          <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewIESSubject">
+          <Key>
+            <PropertyRef Name="ClassSubID" />
+          </Key>
+          <Property Name="ClassSubID" Type="Int32" Nullable="false" />
+          <Property Name="UnivID" Type="Int32" />
+          <Property Name="CollegeID" Type="Int32" />
+          <Property Name="StreamID" Type="Int32" />
+          <Property Name="SemesterID" Type="Int32" />
+          <Property Name="SubjectID" Type="Int32" />
+          <Property Name="SubjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewIESUniversityWithCount">
+          <Key>
+            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="StudentCount" />
+            <PropertyRef Name="CollegeCount" />
+          </Key>
+          <Property Name="UnivID" Type="Int32" Nullable="false" />
+          <Property Name="UniversityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StudentCount" Type="Int32" Nullable="false" />
+          <Property Name="CollegeCount" Type="Int32" Nullable="false" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="xPenModelStoreContainer" CdmEntityContainer="xPenEntities" >
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="xPenModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="OrgID" ColumnName="OrgID" />
+                <ScalarProperty Name="AccountDescription" ColumnName="AccountDescription" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccID" ColumnName="AccID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESAcademicProfiles">
+            <EntityTypeMapping TypeName="xPenModel.IESAcademicProfile">
+              <MappingFragment StoreEntitySet="IESAcademicProfile">
+                <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESClasses">
+            <EntityTypeMapping TypeName="xPenModel.IESClass">
+              <MappingFragment StoreEntitySet="IESClass">
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESClass_Subject">
+            <EntityTypeMapping TypeName="xPenModel.IESClass_Subject">
+              <MappingFragment StoreEntitySet="IESClass_Subject">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="ClassSubID" ColumnName="ClassSubID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="IESColleges">
             <EntityTypeMapping TypeName="xPenModel.IESCollege">
               <MappingFragment StoreEntitySet="IESCollege">
                 <ScalarProperty Name="UnivID" ColumnName="UnivID" />
-                <ScalarProperty Name="College_Name" ColumnName="College_Name" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
                 <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IESSems">
-            <EntityTypeMapping TypeName="xPenModel.IESSem">
-              <MappingFragment StoreEntitySet="IESSem">
-                <ScalarProperty Name="Sem_Name" ColumnName="Sem_Name" />
-                <ScalarProperty Name="SemID" ColumnName="SemID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="IESStreams">
-            <EntityTypeMapping TypeName="xPenModel.IESStream">
-              <MappingFragment StoreEntitySet="IESStream">
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
-                <ScalarProperty Name="Stream_Name" ColumnName="Stream_Name" />
-                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="IESUniversities">
-            <EntityTypeMapping TypeName="xPenModel.IESUniversity">
-              <MappingFragment StoreEntitySet="IESUniversity">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="IESUserProfiles">
-            <EntityTypeMapping TypeName="xPenModel.IESUserProfile">
-              <MappingFragment StoreEntitySet="IESUserProfile">
-                <ScalarProperty Name="DisableDate" ColumnName="DisableDate" />
-                <ScalarProperty Name="ActivationDate" ColumnName="ActivationDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
+          <EntitySetMapping Name="IESCourses">
+            <EntityTypeMapping TypeName="xPenModel.IESCourse">
+              <MappingFragment StoreEntitySet="IESCourse">
                 <ScalarProperty Name="StreamID" ColumnName="StreamID" />
                 <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Token" ColumnName="Token" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="iesViewUserProfiles">
-            <EntityTypeMapping TypeName="xPenModel.iesViewUserProfile">
-              <MappingFragment StoreEntitySet="iesViewUserProfile">
-                <ScalarProperty Name="DisableDate" ColumnName="DisableDate" />
-                <ScalarProperty Name="ActivationDate" ColumnName="ActivationDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Sem_Name" ColumnName="Sem_Name" />
-                <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
-                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
-                <ScalarProperty Name="Stream_Name" ColumnName="Stream_Name" />
-                <ScalarProperty Name="College_Name" ColumnName="College_Name" />
-                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Token" ColumnName="Token" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -398,53 +943,257 @@ warning 6002: The table/view 'xPen.dbo.iesViewUserProfile' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IESObjectiveTests">
-            <EntityTypeMapping TypeName="xPenModel.IESObjectiveTest">
-              <MappingFragment StoreEntitySet="IESObjectiveTest">
-                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
-                <ScalarProperty Name="SemId" ColumnName="SemId" />
-                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
-                <ScalarProperty Name="QPaperID" ColumnName="QPaperID" />
+          <EntitySetMapping Name="IESOrders">
+            <EntityTypeMapping TypeName="xPenModel.IESOrder">
+              <MappingFragment StoreEntitySet="IESOrder">
+                <ScalarProperty Name="ClosureDate" ColumnName="ClosureDate" />
+                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IESSubjectiveTests">
-            <EntityTypeMapping TypeName="xPenModel.IESSubjectiveTest">
-              <MappingFragment StoreEntitySet="IESSubjectiveTests">
-                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
-                <ScalarProperty Name="CReationDate" ColumnName="CReationDate" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <EntitySetMapping Name="IESOrderTransactions">
+            <EntityTypeMapping TypeName="xPenModel.IESOrderTransaction">
+              <MappingFragment StoreEntitySet="IESOrderTransaction">
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="SemID" ColumnName="SemID" />
-                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
-                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
-                <ScalarProperty Name="SNo" ColumnName="SNo" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IESTestPaperInventories">
-            <EntityTypeMapping TypeName="xPenModel.IESTestPaperInventory">
-              <MappingFragment StoreEntitySet="IESTestPaperInventory">
-                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+          <EntitySetMapping Name="IESPaper_Question">
+            <EntityTypeMapping TypeName="xPenModel.IESPaper_Question">
+              <MappingFragment StoreEntitySet="IESPaper-Question">
+                <ScalarProperty Name="QuesID" ColumnName="QuesID" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="PaperQuestionID" ColumnName="PaperQuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESQuestionPapers">
+            <EntityTypeMapping TypeName="xPenModel.IESQuestionPaper">
+              <MappingFragment StoreEntitySet="IESQuestionPaper">
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="SemID" ColumnName="SemID" />
                 <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
-                <ScalarProperty Name="QuesID" ColumnName="QuesID" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="PaperID" ColumnName="PaperID" />
-                <ScalarProperty Name="SerialNO" ColumnName="SerialNO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IESSubjectiveQuestions">
-            <EntityTypeMapping TypeName="xPenModel.IESSubjectiveQuestion">
-              <MappingFragment StoreEntitySet="IESSubjectiveQuestion">
-                <ScalarProperty Name="SemID" ColumnName="SemID" />
-                <ScalarProperty Name="C_SubjectID_" ColumnName="[SubjectID]" />
-                <ScalarProperty Name="answer" ColumnName="answer" />
+          <EntitySetMapping Name="IESQuestions">
+            <EntityTypeMapping TypeName="xPenModel.IESQuestion">
+              <MappingFragment StoreEntitySet="IESQuestions">
+                <ScalarProperty Name="DifficultyLevel" ColumnName="DifficultyLevel" />
+                <ScalarProperty Name="TopicID" ColumnName="TopicID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="Solution" ColumnName="Solution" />
                 <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESSemesters">
+            <EntityTypeMapping TypeName="xPenModel.IESSemester">
+              <MappingFragment StoreEntitySet="IESSemester">
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+                <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
+                <ScalarProperty Name="SemID" ColumnName="SemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESStreams">
+            <EntityTypeMapping TypeName="xPenModel.IESStream">
+              <MappingFragment StoreEntitySet="IESStream">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StreamName" ColumnName="StreamName" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESSubjects">
+            <EntityTypeMapping TypeName="xPenModel.IESSubject">
+              <MappingFragment StoreEntitySet="IESSubject">
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESUniversities">
+            <EntityTypeMapping TypeName="xPenModel.IESUniversity">
+              <MappingFragment StoreEntitySet="IESUniversity">
+                <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IESUserProfiles">
+            <EntityTypeMapping TypeName="xPenModel.IESUserProfile">
+              <MappingFragment StoreEntitySet="IESUserProfile">
+                <ScalarProperty Name="ActivationDate" ColumnName="ActivationDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESAcademicProfiles">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESAcademicProfile">
+              <MappingFragment StoreEntitySet="ViewIESAcademicProfile">
+                <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
+                <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
+                <ScalarProperty Name="StreamName" ColumnName="StreamName" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="UNIVERSITYNAME" ColumnName="UNIVERSITYNAME" />
+                <ScalarProperty Name="UNIVID" ColumnName="UNIVID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESColleges">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESCollege">
+              <MappingFragment StoreEntitySet="ViewIESCollege">
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESCollegeWithCounts">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESCollegeWithCount">
+              <MappingFragment StoreEntitySet="ViewIESCollegeWithCount">
+                <ScalarProperty Name="StreamCount" ColumnName="StreamCount" />
+                <ScalarProperty Name="StudentCount" ColumnName="StudentCount" />
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESCountinStreams">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESCountinStream">
+              <MappingFragment StoreEntitySet="ViewIESCountinStream">
+                <ScalarProperty Name="NoOfColleges" ColumnName="NoOfColleges" />
+                <ScalarProperty Name="NoOfStudent" ColumnName="NoOfStudent" />
+                <ScalarProperty Name="StreamName" ColumnName="StreamName" />
+                <ScalarProperty Name="StreamId" ColumnName="StreamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESPaperQuestions">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESPaperQuestion">
+              <MappingFragment StoreEntitySet="ViewIESPaperQuestion">
+                <ScalarProperty Name="DifficultyLevel" ColumnName="DifficultyLevel" />
+                <ScalarProperty Name="TopicID" ColumnName="TopicID" />
+                <ScalarProperty Name="Solution" ColumnName="Solution" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="SemID" ColumnName="SemID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="QuesID" ColumnName="QuesID" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="PaperQuestionID" ColumnName="PaperQuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESQuestionPapers">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESQuestionPaper">
+              <MappingFragment StoreEntitySet="ViewIESQuestionPaper">
+                <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
+                <ScalarProperty Name="SemID" ColumnName="SemID" />
+                <ScalarProperty Name="StreamName" ColumnName="StreamName" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESQuestions">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESQuestion">
+              <MappingFragment StoreEntitySet="ViewIESQuestions">
+                <ScalarProperty Name="TopicID" ColumnName="TopicID" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESStreams">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESStream">
+              <MappingFragment StoreEntitySet="ViewIESStream">
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StreamName" ColumnName="StreamName" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESStreamofColleges">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESStreamofCollege">
+              <MappingFragment StoreEntitySet="ViewIESStreamofCollege">
+                <ScalarProperty Name="StreamName" ColumnName="StreamName" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+                <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESSubjects">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESSubject">
+              <MappingFragment StoreEntitySet="ViewIESSubject">
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="ClassSubID" ColumnName="ClassSubID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESUniversityWithCounts">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESUniversityWithCount">
+              <MappingFragment StoreEntitySet="ViewIESUniversityWithCount">
+                <ScalarProperty Name="CollegeCount" ColumnName="CollegeCount" />
+                <ScalarProperty Name="StudentCount" ColumnName="StudentCount" />
+                <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
+                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

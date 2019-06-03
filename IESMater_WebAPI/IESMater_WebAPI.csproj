@@ -64,17 +64,72 @@
     <Reference Include="Gnostice.XtremeImageEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=67e9a3a7c22f1690, processorArchitecture=MSIL">
       <HintPath>..\packages\XtremeDocumentStudio.NETFree.19.1.1\lib\net40\Gnostice.XtremeImageEngine.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Apis, Version=1.40.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.40.0\lib\net45\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.40.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.40.0\lib\net45\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.40.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.40.0\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.40.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.40.0\lib\net45\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.40.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.40.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\XtremeDocumentStudio.NETFree.19.1.1\lib\net40\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\XtremeDocumentStudio.NETFree.19.1.1\lib\net40\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.2\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Cors, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Cors.4.0.1\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.4.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.4.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Paytm.Checksum, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Paytm.Checksum.1.0.0\lib\netstandard2.0\Paytm.Checksum.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -94,6 +149,9 @@
     </Reference>
     <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.7\lib\net45\System.Web.Http.Owin.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -116,7 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\LogFile.txt" />
-    <Content Include="Global.asax" />
+    <Content Include="oldGlobal.asax" />
     <Content Include="IESEntity.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IESEntity.Context.cs</LastGenOutput>
@@ -132,13 +190,108 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ClassController.cs" />
+    <Compile Include="Controllers\CollegesController.cs" />
+    <Compile Include="Controllers\PaytmController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\SemesterController.cs" />
+    <Compile Include="Controllers\StreamController.cs" />
+    <Compile Include="Controllers\SubjectController.cs" />
+    <Compile Include="Controllers\UniversityController.cs" />
+    <Compile Include="Controllers\UserDetailsController.cs" />
+    <Compile Include="IESAcademicProfile.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESClass.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESClass_Subject.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESCourse.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESOrder.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESOrderTransaction.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESPaper_Question.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESQuestion.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESQuestionPaper.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESSemester.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IESSubject.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AuthContext.cs" />
+    <Compile Include="Models\AuthRepository.cs" />
+    <Compile Include="Models\College_Courses.cs" />
+    <Compile Include="Models\ExternalLoginModels.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\OTP.cs" />
+    <Compile Include="Models\StreamDetails.cs" />
+    <Compile Include="Models\SubjectDetails.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Providers\FacebookAuthProvider.cs" />
+    <Compile Include="Providers\GoogleAuthProvider.cs" />
+    <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewIESAcademicProfile.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESCollege.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESCollegeWithCount.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESCountinStream.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESPaperQuestion.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESQuestion.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESQuestionPaper.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESStream.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESStreamofCollege.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESSubject.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewIESUniversityWithCount.cs">
+      <DependentUpon>IESEntity.tt</DependentUpon>
+    </Compile>
     <Content Include="App_Code\Log.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig2.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\LookUpController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
+    <Compile Include="oldGlobal.asax.cs">
+      <DependentUpon>oldGlobal.asax</DependentUpon>
     </Compile>
     <Compile Include="IESCollege.cs">
       <DependentUpon>IESEntity.tt</DependentUpon>
@@ -161,31 +314,13 @@
     <Compile Include="IESObjectiveQuestion.cs">
       <DependentUpon>IESEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="IESObjectiveTest.cs">
-      <DependentUpon>IESEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="IESSem.cs">
-      <DependentUpon>IESEntity.tt</DependentUpon>
-    </Compile>
     <Compile Include="IESStream.cs">
-      <DependentUpon>IESEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="IESSubjectiveQuestion.cs">
-      <DependentUpon>IESEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="IESSubjectiveTest.cs">
-      <DependentUpon>IESEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="IESTestPaperInventory.cs">
       <DependentUpon>IESEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="IESUniversity.cs">
       <DependentUpon>IESEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="IESUserProfile.cs">
-      <DependentUpon>IESEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="iesViewUserProfile.cs">
       <DependentUpon>IESEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Utility.cs" />
