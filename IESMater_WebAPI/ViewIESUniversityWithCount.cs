@@ -14,7 +14,7 @@ namespace IESMater_WebAPI
     
     public partial class ViewIESUniversityWithCount
     {
-        public int UnivID { get; set; }
+        public int UniversityID { get; set; }
         public string UniversityName { get; set; }
         public int StudentCount { get; set; }
         public int CollegeCount { get; set; }

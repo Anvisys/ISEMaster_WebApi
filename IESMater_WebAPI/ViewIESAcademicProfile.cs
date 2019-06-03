@@ -16,10 +16,10 @@ namespace IESMater_WebAPI
     {
         public int ProfileID { get; set; }
         public int UserID { get; set; }
-        public string UNIVID { get; set; }
-        public string UNIVERSITYNAME { get; set; }
         public int CollegeID { get; set; }
         public string CollegeName { get; set; }
+        public int UniversityID { get; set; }
+        public string UniversityName { get; set; }
         public int StreamID { get; set; }
         public string StreamName { get; set; }
         public int SemesterID { get; set; }

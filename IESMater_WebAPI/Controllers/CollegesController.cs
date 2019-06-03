@@ -58,7 +58,7 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var college = (from s in context.IESColleges
-                           where s.UnivID == univId
+                           where s.UniversityID == univId
                            select s).ToList();
             return college;
         }
@@ -92,7 +92,7 @@ namespace IESMater_WebAPI.Controllers
                     IESCollege college = new IESCollege
                     {
                         CollegeName = college_course.CollegeName,
-                        UnivID = college_course.UnivID
+                        UniversityID = college_course.UnivID
                     };
                     context.IESColleges.Add(college);
                     context.SaveChanges();
@@ -172,7 +172,7 @@ namespace IESMater_WebAPI.Controllers
 
             College_Courses collegecourse = new College_Courses();
 
-            collegecourse.UnivID = CollegeDetails.UnivID;
+            collegecourse.UnivID = CollegeDetails.UniversityID;
             collegecourse.CollegeName = CollegeDetails.CollegeName;
             collegecourse.Streams = listStream;
 

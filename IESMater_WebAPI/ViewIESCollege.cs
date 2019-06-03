@@ -14,7 +14,7 @@ namespace IESMater_WebAPI
     
     public partial class ViewIESCollege
     {
-        public int UnivID { get; set; }
+        public int UniversityID { get; set; }
         public int CollegeID { get; set; }
         public string CollegeName { get; set; }
         public int StreamID { get; set; }

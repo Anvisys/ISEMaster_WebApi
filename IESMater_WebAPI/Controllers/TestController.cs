@@ -20,8 +20,8 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var subjects = (from s in context.ViewIESQuestionPapers
-                            group s by new { s.UnivID, s.UniversityName, s.CollegeID, s.CollegeName } into unilist
-                            select new { unilist.Key.UnivID, unilist.Key.UniversityName, unilist.Key.CollegeID, unilist.Key.CollegeName }).ToList();
+                            group s by new { s.UniversityID, s.UniversityName, s.CollegeID, s.CollegeName } into unilist
+                            select new { unilist.Key.UniversityID, unilist.Key.UniversityName, unilist.Key.CollegeID, unilist.Key.CollegeName }).ToList();
             return subjects;
         }
 
@@ -43,7 +43,7 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var subjects = (from s in context.ViewIESQuestionPapers
-                            where s.UnivID == UniversityID
+                            where s.UniversityID == UniversityID
                             group s by new { s.StreamID, s.StreamName } into streamlist
                             select new { streamlist.Key.StreamID, streamlist.Key.StreamName }).ToList();
             return subjects;
@@ -72,7 +72,7 @@ namespace IESMater_WebAPI.Controllers
             var context = new xPenEntities();
             var subjects = (from s in context.ViewIESQuestionPapers
 
-                            where s.UnivID == UniversityID && s.StreamID == StreamID
+                            where s.UniversityID == UniversityID && s.StreamID == StreamID
                             group s by new {s.SubjectID, s.SubjectName } into subjectlist
                             select new {SubjectId= subjectlist.Key.SubjectID, SubjectName = subjectlist.Key.SubjectName }).ToList();
             return subjects;
@@ -88,7 +88,7 @@ namespace IESMater_WebAPI.Controllers
             {
                 var context = new xPenEntities();
                 var test = (from s in context.ViewIESQuestionPapers
-                            where s.UnivID == UniversityID && s.StreamID == streamID && s.SubjectID == SubjectId
+                            where s.UniversityID == UniversityID && s.StreamID == streamID && s.SubjectID == SubjectId
                             group s by s.Year into yearGroup
                             select new { year = yearGroup.Key }).ToList();
 
@@ -107,7 +107,7 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var test = (from s in context.ViewIESQuestionPapers
-                        where s.UnivID == UniversityID && s.StreamID == streamID && s.SubjectID == SubjectId && s.Year == Year
+                        where s.UniversityID == UniversityID && s.StreamID == streamID && s.SubjectID == SubjectId && s.Year == Year
                         group s by s.Unit into unitGroup
                         select new { Unit = unitGroup.Key }).ToList();
 
@@ -125,7 +125,7 @@ namespace IESMater_WebAPI.Controllers
                          select o).ToList();
 
             var test = (from s in context.ViewIESQuestionPapers
-                        where s.UnivID == UniversityID && s.StreamID == streamID 
+                        where s.UniversityID == UniversityID && s.StreamID == streamID 
                         && s.SubjectID == SubjectId && s.Year == Year && s.Unit == Unit
                         select s).ToList();
 

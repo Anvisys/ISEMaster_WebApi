@@ -22,7 +22,7 @@ namespace IESMater_WebAPI
         public Nullable<int> Unit { get; set; }
         public int CollegeID { get; set; }
         public string CollegeName { get; set; }
-        public Nullable<int> UnivID { get; set; }
+        public Nullable<int> UniversityID { get; set; }
         public string UniversityName { get; set; }
         public int StreamID { get; set; }
         public string StreamName { get; set; }

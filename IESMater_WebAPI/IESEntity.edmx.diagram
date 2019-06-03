@@ -22,7 +22,6 @@
         <EntityTypeShape EntityType="xPenModel.IESSubject" Width="1.5" PointX="8.75" PointY="6.75" />
         <EntityTypeShape EntityType="xPenModel.IESUniversity" Width="1.5" PointX="0.75" PointY="9.75" />
         <EntityTypeShape EntityType="xPenModel.IESUserProfile" Width="1.5" PointX="8.75" PointY="9.75" />
-        <EntityTypeShape EntityType="xPenModel.ViewIESAcademicProfile" Width="1.5" PointX="10.75" PointY="0.75" />
         <EntityTypeShape EntityType="xPenModel.ViewIESCollege" Width="1.5" PointX="10.75" PointY="4.75" />
         <EntityTypeShape EntityType="xPenModel.ViewIESCollegeWithCount" Width="1.5" PointX="10.75" PointY="7.75" />
         <EntityTypeShape EntityType="xPenModel.ViewIESCountinStream" Width="1.5" PointX="10.75" PointY="10.75" />
@@ -33,6 +32,7 @@
         <EntityTypeShape EntityType="xPenModel.ViewIESStreamofCollege" Width="1.5" PointX="12.75" PointY="8.75" />
         <EntityTypeShape EntityType="xPenModel.ViewIESSubject" Width="1.5" PointX="12.75" PointY="11.75" />
         <EntityTypeShape EntityType="xPenModel.ViewIESUniversityWithCount" Width="1.5" PointX="6.75" PointY="13.75" />
+        <EntityTypeShape EntityType="xPenModel.ViewIESAcademicProfile" Width="1.5" PointX="9.375" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -42,7 +42,6 @@ namespace IESMater_WebAPI
         public virtual DbSet<IESSubject> IESSubjects { get; set; }
         public virtual DbSet<IESUniversity> IESUniversities { get; set; }
         public virtual DbSet<IESUserProfile> IESUserProfiles { get; set; }
-        public virtual DbSet<ViewIESAcademicProfile> ViewIESAcademicProfiles { get; set; }
         public virtual DbSet<ViewIESCollege> ViewIESColleges { get; set; }
         public virtual DbSet<ViewIESCollegeWithCount> ViewIESCollegeWithCounts { get; set; }
         public virtual DbSet<ViewIESCountinStream> ViewIESCountinStreams { get; set; }
@@ -53,5 +52,6 @@ namespace IESMater_WebAPI
         public virtual DbSet<ViewIESStreamofCollege> ViewIESStreamofColleges { get; set; }
         public virtual DbSet<ViewIESSubject> ViewIESSubjects { get; set; }
         public virtual DbSet<ViewIESUniversityWithCount> ViewIESUniversityWithCounts { get; set; }
+        public virtual DbSet<ViewIESAcademicProfile> ViewIESAcademicProfiles { get; set; }
     }
 }

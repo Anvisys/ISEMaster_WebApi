@@ -16,7 +16,7 @@ namespace IESMater_WebAPI
     {
         public int CollegeID { get; set; }
         public string CollegeName { get; set; }
-        public int UnivID { get; set; }
+        public int UniversityID { get; set; }
         public int StudentCount { get; set; }
         public int StreamCount { get; set; }
     }

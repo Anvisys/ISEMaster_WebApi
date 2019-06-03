@@ -15,10 +15,10 @@ namespace IESMater_WebAPI
     public partial class IESAcademicProfile
     {
         public int ProfileID { get; set; }
-        public string UnivID { get; set; }
         public int CollegeID { get; set; }
         public int StreamID { get; set; }
         public int UserID { get; set; }
         public int SemesterID { get; set; }
+        public int UniversityID { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace IESMater_WebAPI
     {
         public int QuestionID { get; set; }
         public string Question { get; set; }
-        public string Answer { get; set; }
+        public string Solution { get; set; }
         public int SubjectID { get; set; }
         public string SubjectName { get; set; }
         public Nullable<int> Unit { get; set; }

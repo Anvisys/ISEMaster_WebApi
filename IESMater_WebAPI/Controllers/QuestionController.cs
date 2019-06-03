@@ -18,7 +18,7 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var stream = (from q in context.ViewIESQuestionPapers
-                          where q.UnivID == UnivID && q.StreamID == StreamId && q.SubjectID == SubId
+                          where q.UniversityID == UnivID && q.StreamID == StreamId && q.SubjectID == SubId
                           select q).ToList();
             return stream;
         }
@@ -29,7 +29,7 @@ namespace IESMater_WebAPI.Controllers
         {
             var context = new xPenEntities();
             var stream = (from q in context.ViewIESQuestionPapers
-                          where q.UnivID == UnivID && q.StreamID == StreamId && q.SubjectID == SubId && q.Year == Year
+                          where q.UniversityID == UnivID && q.StreamID == StreamId && q.SubjectID == SubId && q.Year == Year
                           select q).ToList();
             return stream;
         }

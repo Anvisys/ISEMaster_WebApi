@@ -21,11 +21,11 @@
             <PropertyRef Name="ProfileID" />
           </Key>
           <Property Name="ProfileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UnivID" Type="varchar" MaxLength="50" />
           <Property Name="CollegeID" Type="int" Nullable="false" />
           <Property Name="StreamID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="SemesterID" Type="int" Nullable="false" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="IESClass">
           <Key>
@@ -51,7 +51,7 @@
           </Key>
           <Property Name="CollegeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CollegeName" Type="varchar" MaxLength="50" />
-          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="IESCourse">
           <Key>
@@ -153,9 +153,9 @@
         </EntityType>
         <EntityType Name="IESUniversity">
           <Key>
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
           </Key>
-          <Property Name="UnivID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UniversityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UniversityName" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="IESUserProfile">
@@ -178,15 +178,16 @@ warning 6002: The table/view 'xPen.dbo.ViewIESAcademicProfile' does not have a p
             <PropertyRef Name="ProfileID" />
             <PropertyRef Name="UserID" />
             <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="UniversityID" />
             <PropertyRef Name="StreamID" />
             <PropertyRef Name="SemesterID" />
           </Key>
           <Property Name="ProfileID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="UNIVID" Type="varchar" MaxLength="50" />
-          <Property Name="UNIVERSITYNAME" Type="varchar" MaxLength="50" />
           <Property Name="CollegeID" Type="int" Nullable="false" />
           <Property Name="CollegeName" Type="varchar" MaxLength="50" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
+          <Property Name="UniversityName" Type="varchar" MaxLength="50" />
           <Property Name="StreamID" Type="int" Nullable="false" />
           <Property Name="StreamName" Type="varchar" MaxLength="50" />
           <Property Name="SemesterID" Type="int" Nullable="false" />
@@ -196,11 +197,11 @@ warning 6002: The table/view 'xPen.dbo.ViewIESAcademicProfile' does not have a p
 warning 6002: The table/view 'xPen.dbo.ViewIESCollege' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewIESCollege">
           <Key>
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
             <PropertyRef Name="CollegeID" />
             <PropertyRef Name="StreamID" />
           </Key>
-          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
           <Property Name="CollegeID" Type="int" Nullable="false" />
           <Property Name="CollegeName" Type="varchar" MaxLength="50" />
           <Property Name="StreamID" Type="int" Nullable="false" />
@@ -210,13 +211,13 @@ warning 6002: The table/view 'xPen.dbo.ViewIESCollegeWithCount' does not have a 
         <EntityType Name="ViewIESCollegeWithCount">
           <Key>
             <PropertyRef Name="CollegeID" />
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
             <PropertyRef Name="StudentCount" />
             <PropertyRef Name="StreamCount" />
           </Key>
           <Property Name="CollegeID" Type="int" Nullable="false" />
           <Property Name="CollegeName" Type="varchar" MaxLength="50" />
-          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
           <Property Name="StudentCount" Type="int" Nullable="false" />
           <Property Name="StreamCount" Type="int" Nullable="false" />
         </EntityType>
@@ -275,7 +276,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESQuestionPaper' does not have a pri
           <Property Name="Unit" Type="int" />
           <Property Name="CollegeID" Type="int" Nullable="false" />
           <Property Name="CollegeName" Type="varchar" MaxLength="50" />
-          <Property Name="UnivID" Type="int" />
+          <Property Name="UniversityID" Type="int" />
           <Property Name="UniversityName" Type="varchar" MaxLength="50" />
           <Property Name="StreamID" Type="int" Nullable="false" />
           <Property Name="StreamName" Type="varchar" MaxLength="50" />
@@ -292,7 +293,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESQuestions' does not have a primary
           </Key>
           <Property Name="QuestionID" Type="int" Nullable="false" />
           <Property Name="Question" Type="varchar" MaxLength="300" />
-          <Property Name="Answer" Type="varchar" MaxLength="1000" />
+          <Property Name="Solution" Type="varchar" MaxLength="1000" />
           <Property Name="SubjectID" Type="int" Nullable="false" />
           <Property Name="SubjectName" Type="varchar" MaxLength="50" />
           <Property Name="Unit" Type="int" />
@@ -306,7 +307,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESStream' does not have a primary ke
             <PropertyRef Name="CourseID" />
             <PropertyRef Name="CollegeID" />
             <PropertyRef Name="CollegeName" />
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
           </Key>
           <Property Name="StreamID" Type="int" Nullable="false" />
           <Property Name="StreamName" Type="varchar" MaxLength="50" />
@@ -314,7 +315,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESStream' does not have a primary ke
           <Property Name="CourseID" Type="int" Nullable="false" />
           <Property Name="CollegeID" Type="int" Nullable="false" />
           <Property Name="CollegeName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'xPen.dbo.ViewIESStreamofCollege' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -336,7 +337,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESSubject' does not have a primary k
             <PropertyRef Name="ClassSubID" />
           </Key>
           <Property Name="ClassSubID" Type="int" Nullable="false" />
-          <Property Name="UnivID" Type="int" />
+          <Property Name="UniversityID" Type="int" />
           <Property Name="CollegeID" Type="int" />
           <Property Name="StreamID" Type="int" />
           <Property Name="SemesterID" Type="int" />
@@ -347,11 +348,11 @@ warning 6002: The table/view 'xPen.dbo.ViewIESSubject' does not have a primary k
 warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ViewIESUniversityWithCount">
           <Key>
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
             <PropertyRef Name="StudentCount" />
             <PropertyRef Name="CollegeCount" />
           </Key>
-          <Property Name="UnivID" Type="int" Nullable="false" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
           <Property Name="UniversityName" Type="varchar" MaxLength="50" />
           <Property Name="StudentCount" Type="int" Nullable="false" />
           <Property Name="CollegeCount" Type="int" Nullable="false" />
@@ -378,10 +379,10 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
             <DefiningQuery>SELECT 
     [ViewIESAcademicProfile].[ProfileID] AS [ProfileID], 
     [ViewIESAcademicProfile].[UserID] AS [UserID], 
-    [ViewIESAcademicProfile].[UNIVID] AS [UNIVID], 
-    [ViewIESAcademicProfile].[UNIVERSITYNAME] AS [UNIVERSITYNAME], 
     [ViewIESAcademicProfile].[CollegeID] AS [CollegeID], 
     [ViewIESAcademicProfile].[CollegeName] AS [CollegeName], 
+    [ViewIESAcademicProfile].[UniversityID] AS [UniversityID], 
+    [ViewIESAcademicProfile].[UniversityName] AS [UniversityName], 
     [ViewIESAcademicProfile].[StreamID] AS [StreamID], 
     [ViewIESAcademicProfile].[StreamName] AS [StreamName], 
     [ViewIESAcademicProfile].[SemesterID] AS [SemesterID], 
@@ -390,7 +391,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           </EntitySet>
           <EntitySet Name="ViewIESCollege" EntityType="Self.ViewIESCollege" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [ViewIESCollege].[UnivID] AS [UnivID], 
+    [ViewIESCollege].[UniversityID] AS [UniversityID], 
     [ViewIESCollege].[CollegeID] AS [CollegeID], 
     [ViewIESCollege].[CollegeName] AS [CollegeName], 
     [ViewIESCollege].[StreamID] AS [StreamID]
@@ -400,7 +401,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
             <DefiningQuery>SELECT 
     [ViewIESCollegeWithCount].[CollegeID] AS [CollegeID], 
     [ViewIESCollegeWithCount].[CollegeName] AS [CollegeName], 
-    [ViewIESCollegeWithCount].[UnivID] AS [UnivID], 
+    [ViewIESCollegeWithCount].[UniversityID] AS [UniversityID], 
     [ViewIESCollegeWithCount].[StudentCount] AS [StudentCount], 
     [ViewIESCollegeWithCount].[StreamCount] AS [StreamCount]
     FROM [dbo].[ViewIESCollegeWithCount] AS [ViewIESCollegeWithCount]</DefiningQuery>
@@ -440,7 +441,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
     [ViewIESQuestionPaper].[Unit] AS [Unit], 
     [ViewIESQuestionPaper].[CollegeID] AS [CollegeID], 
     [ViewIESQuestionPaper].[CollegeName] AS [CollegeName], 
-    [ViewIESQuestionPaper].[UnivID] AS [UnivID], 
+    [ViewIESQuestionPaper].[UniversityID] AS [UniversityID], 
     [ViewIESQuestionPaper].[UniversityName] AS [UniversityName], 
     [ViewIESQuestionPaper].[StreamID] AS [StreamID], 
     [ViewIESQuestionPaper].[StreamName] AS [StreamName], 
@@ -452,7 +453,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
             <DefiningQuery>SELECT 
     [ViewIESQuestions].[QuestionID] AS [QuestionID], 
     [ViewIESQuestions].[Question] AS [Question], 
-    [ViewIESQuestions].[Answer] AS [Answer], 
+    [ViewIESQuestions].[Solution] AS [Solution], 
     [ViewIESQuestions].[SubjectID] AS [SubjectID], 
     [ViewIESQuestions].[SubjectName] AS [SubjectName], 
     [ViewIESQuestions].[Unit] AS [Unit], 
@@ -467,7 +468,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
     [ViewIESStream].[CourseID] AS [CourseID], 
     [ViewIESStream].[CollegeID] AS [CollegeID], 
     [ViewIESStream].[CollegeName] AS [CollegeName], 
-    [ViewIESStream].[UnivID] AS [UnivID]
+    [ViewIESStream].[UniversityID] AS [UniversityID]
     FROM [dbo].[ViewIESStream] AS [ViewIESStream]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViewIESStreamofCollege" EntityType="Self.ViewIESStreamofCollege" store:Type="Views" store:Schema="dbo">
@@ -482,7 +483,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           <EntitySet Name="ViewIESSubject" EntityType="Self.ViewIESSubject" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ViewIESSubject].[ClassSubID] AS [ClassSubID], 
-    [ViewIESSubject].[UnivID] AS [UnivID], 
+    [ViewIESSubject].[UniversityID] AS [UniversityID], 
     [ViewIESSubject].[CollegeID] AS [CollegeID], 
     [ViewIESSubject].[StreamID] AS [StreamID], 
     [ViewIESSubject].[SemesterID] AS [SemesterID], 
@@ -492,7 +493,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           </EntitySet>
           <EntitySet Name="ViewIESUniversityWithCount" EntityType="Self.ViewIESUniversityWithCount" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [ViewIESUniversityWithCount].[UnivID] AS [UnivID], 
+    [ViewIESUniversityWithCount].[UniversityID] AS [UniversityID], 
     [ViewIESUniversityWithCount].[UniversityName] AS [UniversityName], 
     [ViewIESUniversityWithCount].[StudentCount] AS [StudentCount], 
     [ViewIESUniversityWithCount].[CollegeCount] AS [CollegeCount]
@@ -521,7 +522,6 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           <EntitySet Name="IESSubjects" EntityType="xPenModel.IESSubject" />
           <EntitySet Name="IESUniversities" EntityType="xPenModel.IESUniversity" />
           <EntitySet Name="IESUserProfiles" EntityType="xPenModel.IESUserProfile" />
-          <EntitySet Name="ViewIESAcademicProfiles" EntityType="xPenModel.ViewIESAcademicProfile" />
           <EntitySet Name="ViewIESColleges" EntityType="xPenModel.ViewIESCollege" />
           <EntitySet Name="ViewIESCollegeWithCounts" EntityType="xPenModel.ViewIESCollegeWithCount" />
           <EntitySet Name="ViewIESCountinStreams" EntityType="xPenModel.ViewIESCountinStream" />
@@ -532,6 +532,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           <EntitySet Name="ViewIESStreamofColleges" EntityType="xPenModel.ViewIESStreamofCollege" />
           <EntitySet Name="ViewIESSubjects" EntityType="xPenModel.ViewIESSubject" />
           <EntitySet Name="ViewIESUniversityWithCounts" EntityType="xPenModel.ViewIESUniversityWithCount" />
+          <EntitySet Name="ViewIESAcademicProfiles" EntityType="xPenModel.ViewIESAcademicProfile" />
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -549,11 +550,11 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
             <PropertyRef Name="ProfileID" />
           </Key>
           <Property Name="ProfileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UnivID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CollegeID" Type="Int32" Nullable="false" />
           <Property Name="StreamID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="SemesterID" Type="Int32" Nullable="false" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="IESClass">
           <Key>
@@ -579,7 +580,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           </Key>
           <Property Name="CollegeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UnivID" Type="Int32" Nullable="false" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="IESCourse">
           <Key>
@@ -681,9 +682,9 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
         </EntityType>
         <EntityType Name="IESUniversity">
           <Key>
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
           </Key>
-          <Property Name="UnivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UniversityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="IESUserProfile">
@@ -699,32 +700,13 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ActivationDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-        <EntityType Name="ViewIESAcademicProfile">
-          <Key>
-            <PropertyRef Name="ProfileID" />
-            <PropertyRef Name="UserID" />
-            <PropertyRef Name="CollegeID" />
-            <PropertyRef Name="StreamID" />
-            <PropertyRef Name="SemesterID" />
-          </Key>
-          <Property Name="ProfileID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="UNIVID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UNIVERSITYNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CollegeID" Type="Int32" Nullable="false" />
-          <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="StreamID" Type="Int32" Nullable="false" />
-          <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SemesterID" Type="Int32" Nullable="false" />
-          <Property Name="SemesterName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="ViewIESCollege">
           <Key>
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
             <PropertyRef Name="CollegeID" />
             <PropertyRef Name="StreamID" />
           </Key>
-          <Property Name="UnivID" Type="Int32" Nullable="false" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
           <Property Name="CollegeID" Type="Int32" Nullable="false" />
           <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="StreamID" Type="Int32" Nullable="false" />
@@ -732,13 +714,13 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
         <EntityType Name="ViewIESCollegeWithCount">
           <Key>
             <PropertyRef Name="CollegeID" />
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
             <PropertyRef Name="StudentCount" />
             <PropertyRef Name="StreamCount" />
           </Key>
           <Property Name="CollegeID" Type="Int32" Nullable="false" />
           <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UnivID" Type="Int32" Nullable="false" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
           <Property Name="StudentCount" Type="Int32" Nullable="false" />
           <Property Name="StreamCount" Type="Int32" Nullable="false" />
         </EntityType>
@@ -791,7 +773,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           <Property Name="Unit" Type="Int32" />
           <Property Name="CollegeID" Type="Int32" Nullable="false" />
           <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UnivID" Type="Int32" />
+          <Property Name="UniversityID" Type="Int32" />
           <Property Name="UniversityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="StreamID" Type="Int32" Nullable="false" />
           <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -806,7 +788,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           </Key>
           <Property Name="QuestionID" Type="Int32" Nullable="false" />
           <Property Name="Question" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="Answer" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Solution" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="SubjectID" Type="Int32" Nullable="false" />
           <Property Name="SubjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Unit" Type="Int32" />
@@ -818,7 +800,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
             <PropertyRef Name="CourseID" />
             <PropertyRef Name="CollegeID" />
             <PropertyRef Name="CollegeName" />
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
           </Key>
           <Property Name="StreamID" Type="Int32" Nullable="false" />
           <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -826,7 +808,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           <Property Name="CourseID" Type="Int32" Nullable="false" />
           <Property Name="CollegeID" Type="Int32" Nullable="false" />
           <Property Name="CollegeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UnivID" Type="Int32" Nullable="false" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="ViewIESStreamofCollege">
           <Key>
@@ -844,7 +826,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
             <PropertyRef Name="ClassSubID" />
           </Key>
           <Property Name="ClassSubID" Type="Int32" Nullable="false" />
-          <Property Name="UnivID" Type="Int32" />
+          <Property Name="UniversityID" Type="Int32" />
           <Property Name="CollegeID" Type="Int32" />
           <Property Name="StreamID" Type="Int32" />
           <Property Name="SemesterID" Type="Int32" />
@@ -853,14 +835,34 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
         </EntityType>
         <EntityType Name="ViewIESUniversityWithCount">
           <Key>
-            <PropertyRef Name="UnivID" />
+            <PropertyRef Name="UniversityID" />
             <PropertyRef Name="StudentCount" />
             <PropertyRef Name="CollegeCount" />
           </Key>
-          <Property Name="UnivID" Type="Int32" Nullable="false" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
           <Property Name="UniversityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="StudentCount" Type="Int32" Nullable="false" />
           <Property Name="CollegeCount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewIESAcademicProfile">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="CollegeID" />
+            <PropertyRef Name="UniversityID" />
+            <PropertyRef Name="StreamID" />
+            <PropertyRef Name="SemesterID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeID" Type="Int32" Nullable="false" />
+          <Property Name="CollegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
+          <Property Name="UniversityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StreamID" Type="Int32" Nullable="false" />
+          <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SemesterID" Type="Int32" Nullable="false" />
+          <Property Name="SemesterName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -883,11 +885,11 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           <EntitySetMapping Name="IESAcademicProfiles">
             <EntityTypeMapping TypeName="xPenModel.IESAcademicProfile">
               <MappingFragment StoreEntitySet="IESAcademicProfile">
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="StreamID" ColumnName="StreamID" />
                 <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
                 <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -915,7 +917,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           <EntitySetMapping Name="IESColleges">
             <EntityTypeMapping TypeName="xPenModel.IESCollege">
               <MappingFragment StoreEntitySet="IESCollege">
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
                 <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
               </MappingFragment>
@@ -1033,7 +1035,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
             <EntityTypeMapping TypeName="xPenModel.IESUniversity">
               <MappingFragment StoreEntitySet="IESUniversity">
                 <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1051,29 +1053,13 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViewIESAcademicProfiles">
-            <EntityTypeMapping TypeName="xPenModel.ViewIESAcademicProfile">
-              <MappingFragment StoreEntitySet="ViewIESAcademicProfile">
-                <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
-                <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
-                <ScalarProperty Name="StreamName" ColumnName="StreamName" />
-                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
-                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
-                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
-                <ScalarProperty Name="UNIVERSITYNAME" ColumnName="UNIVERSITYNAME" />
-                <ScalarProperty Name="UNIVID" ColumnName="UNIVID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViewIESColleges">
             <EntityTypeMapping TypeName="xPenModel.ViewIESCollege">
               <MappingFragment StoreEntitySet="ViewIESCollege">
                 <ScalarProperty Name="StreamID" ColumnName="StreamID" />
                 <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
                 <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1082,7 +1068,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
               <MappingFragment StoreEntitySet="ViewIESCollegeWithCount">
                 <ScalarProperty Name="StreamCount" ColumnName="StreamCount" />
                 <ScalarProperty Name="StudentCount" ColumnName="StudentCount" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
                 <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
               </MappingFragment>
@@ -1125,7 +1111,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
                 <ScalarProperty Name="StreamName" ColumnName="StreamName" />
                 <ScalarProperty Name="StreamID" ColumnName="StreamID" />
                 <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
                 <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
                 <ScalarProperty Name="Unit" ColumnName="Unit" />
@@ -1144,7 +1130,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
                 <ScalarProperty Name="Unit" ColumnName="Unit" />
                 <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
                 <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
-                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="Solution" ColumnName="Solution" />
                 <ScalarProperty Name="Question" ColumnName="Question" />
                 <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
               </MappingFragment>
@@ -1153,7 +1139,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
           <EntitySetMapping Name="ViewIESStreams">
             <EntityTypeMapping TypeName="xPenModel.ViewIESStream">
               <MappingFragment StoreEntitySet="ViewIESStream">
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
                 <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
                 <ScalarProperty Name="CourseID" ColumnName="CourseID" />
@@ -1182,7 +1168,7 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
                 <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
                 <ScalarProperty Name="StreamID" ColumnName="StreamID" />
                 <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="ClassSubID" ColumnName="ClassSubID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1193,7 +1179,23 @@ warning 6002: The table/view 'xPen.dbo.ViewIESUniversityWithCount' does not have
                 <ScalarProperty Name="CollegeCount" ColumnName="CollegeCount" />
                 <ScalarProperty Name="StudentCount" ColumnName="StudentCount" />
                 <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
-                <ScalarProperty Name="UnivID" ColumnName="UnivID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewIESAcademicProfiles">
+            <EntityTypeMapping TypeName="xPenModel.ViewIESAcademicProfile">
+              <MappingFragment StoreEntitySet="ViewIESAcademicProfile">
+                <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
+                <ScalarProperty Name="SemesterID" ColumnName="SemesterID" />
+                <ScalarProperty Name="StreamName" ColumnName="StreamName" />
+                <ScalarProperty Name="StreamID" ColumnName="StreamID" />
+                <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
+                <ScalarProperty Name="CollegeName" ColumnName="CollegeName" />
+                <ScalarProperty Name="CollegeID" ColumnName="CollegeID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

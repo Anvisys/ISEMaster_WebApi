@@ -20,6 +20,6 @@ namespace IESMater_WebAPI
         public int CourseID { get; set; }
         public int CollegeID { get; set; }
         public string CollegeName { get; set; }
-        public int UnivID { get; set; }
+        public int UniversityID { get; set; }
     }
 }

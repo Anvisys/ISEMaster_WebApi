@@ -104,7 +104,18 @@ namespace IESMater_WebAPI.Controllers
 
                 bool result = VerifyChecksum(paytmParams);
                 if (result)
+                {
                     res.Response = "Ok";
+                    int order_id = Convert.ToInt32(orderId);
+                    var context = new xPenEntities();
+                    var order = (from o in context.IESOrders
+                                 where o.OrderID == order_id
+                                 select o).First();
+                    order.PurchaseDate = DateTime.UtcNow;
+                    order.ClosureDate = DateTime.UtcNow.AddYears(1);
+                    context.SaveChanges();
+                }
+
                 else
                     res.Response = "Fail";
 

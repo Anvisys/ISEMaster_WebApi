@@ -108,16 +108,16 @@ namespace IESMater_WebAPI.Controllers
         }
 
         [Route("GetAcademic/{UserID}")]
-        [HttpPost]
+        [HttpGet]
 
         public IHttpActionResult GetAcademicProfile(int UserID)
         {
             try
             {
                 var context = new xPenEntities();
-                var profile = from u in context.ViewIESAcademicProfiles
+                var profile = (from u in context.ViewIESAcademicProfiles
                               where u.UserID == UserID
-                              select u;
+                              select u).First();
              
                 return Ok(profile);
             }
@@ -145,6 +145,7 @@ namespace IESMater_WebAPI.Controllers
                     if (ac.Count > 0)
                     {
                         context.IESAcademicProfiles.RemoveRange(ac);
+                        context.SaveChanges();
                     }
 
                     context.IESAcademicProfiles.Add(profile);
