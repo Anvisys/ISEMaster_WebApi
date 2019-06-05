@@ -18,15 +18,19 @@ namespace IESMater_WebAPI.Controllers
 
     public class UserController : ApiController
     {
-        [Route("Email/{Email}")]
-        [HttpGet]
-   
-        public IESUserProfile GetUserProfile(String Email)
+        [Route("Email")]
+        [HttpPost]
+        public IESUserProfile GetUserProfile([FromBody]Login value)
         {
             var context = new xPenEntities();
             var soc = (from s in context.IESUserProfiles
-                       where s.Email == Email
+                       where s.Email == value.Email
                        select s).FirstOrDefault();
+            if (soc == null)
+            {
+                return new IESUserProfile { UserID = -99, Email = "", Name = "", Address = "", Password = "", MobileNumber = "", Token = "", ActivationDate = DateTime.Now };
+            }
+            else
             return soc;
         }
 
