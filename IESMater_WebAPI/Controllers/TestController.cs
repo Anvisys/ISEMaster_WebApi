@@ -198,7 +198,7 @@ namespace IESMater_WebAPI.Controllers
         }
 
 
-
+        [Route("New")]
         [HttpPost]
         public IHttpActionResult PostNewTest([FromBody]IESQuestionPaper value)
         {
@@ -234,17 +234,37 @@ namespace IESMater_WebAPI.Controllers
         [HttpPost]
         public IHttpActionResult PostOrder([FromBody]IESOrder value)
         {
-            try
-            {
+            List<IESOrder> list = new List<IESOrder>();
+          
                 var context = new xPenEntities();
+                var prev = (from s in context.IESOrders
+                            where s.PaperID == value.PaperID && s.UserID == value.UserID
+                             select s).ToList();
+
+            if (prev.Count > 0)
+            {
+                return InternalServerError();
+            }
+            else {
                 context.IESOrders.Add(value);
                 context.SaveChanges();
                 return Ok();
             }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex.InnerException);
-            }
+
+
+            
+
+            //try
+            //{
+            //    var context = new xPenEntities();
+            //    context.IESOrders.Add(value);
+            //    context.SaveChanges();
+            //    return Ok();
+            //}
+            //catch (Exception ex)
+            //{
+            //    return InternalServerError(ex.InnerException);
+            //}
 
         }
 

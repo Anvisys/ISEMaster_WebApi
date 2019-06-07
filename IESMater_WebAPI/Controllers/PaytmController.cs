@@ -33,8 +33,19 @@ namespace IESMater_WebAPI.Controllers
                 var context = new xPenEntities();
                 using (var dbContextTransaction = context.Database.BeginTransaction())
                 {
+                    var prev = (from p in context.IESOrders
+                                where p.PaperID == value.PaperID && p.UserID == value.UserID
+                                select p).ToList();
+
+                    if (prev.Count > 0)
+                    {
+                        context.IESOrders.RemoveRange(prev);
+                        context.SaveChanges();
+                    }
+
                     context.IESOrders.Add(value);
                     context.SaveChanges();
+
                     if (value.OrderID > 1)
                     {
                         checkSum cs = new checkSum();
